@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+
+  iam.db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
+  iam.api:
+    image: ${DOCKER_REGISTRY-}iamapi
+    build:
+      context: .
+      dockerfile: Services/IAM/IAM.API/Dockerfile

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IAM.API.Controllers
 {
     [Route("api/identity")]
-    [Authorize(Policy = "ApiScope")]
+    [Authorize()]
     public class IdentityController : ControllerBase
     {
         [HttpGet]

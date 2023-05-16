@@ -8,11 +8,13 @@ var services = builder.Services;
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 
+// Add Database Connection
+services.AddIAMDatabaseContext(builder.Configuration);
+
 // Add Authentication config
 services.AddAuthenticationConfig();
 // Add Authorization config
 services.AddAuthorizationConfig();
-
 
 // Config User claims info
 services.AddUserInfo();
