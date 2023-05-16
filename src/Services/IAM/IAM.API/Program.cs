@@ -8,20 +8,17 @@ var services = builder.Services;
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 
-// Add Database Connection
 services.AddIAMDatabaseContext(builder.Configuration);
+services.AddServices();
 
 // Add IdentityServer4
 services.AddIdentityServer4(builder.Configuration);
 
-// Add Authentication config
-services.AddAuthenticationConfig(builder.Configuration);
-// Add Authorization config
-services.AddAuthorizationConfig();
-
 // Config User claims info
 services.AddUserInfo();
 
+services.AddAuthenticationConfig(builder.Configuration);
+services.AddAuthorizationConfig();
 
 services.AddSwaggerGen();
 

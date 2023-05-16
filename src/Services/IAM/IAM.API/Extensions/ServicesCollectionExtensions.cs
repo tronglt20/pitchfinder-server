@@ -1,4 +1,5 @@
 ﻿using IAM.API.Identity;
+using IAM.API.Services;
 using IAM.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,6 +40,12 @@ namespace IAM.API.Extensions
 				    .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"));
 
             return services;
+        }
+
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            return services
+                    .AddScoped<AuthenticationService>();
         }
     }
 }

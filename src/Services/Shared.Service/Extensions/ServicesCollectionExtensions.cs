@@ -13,6 +13,7 @@ namespace Shared.Service.Extensions
         public static void AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration.GetSection("IdentityOptions").Get<IdentitySettings>();
+            services.AddSingleton(provider => settings);
 
             services.AddAuthentication(options =>
             {
