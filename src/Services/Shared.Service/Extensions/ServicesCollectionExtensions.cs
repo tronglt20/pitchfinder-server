@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Infrastructure.Dtos;
 using System.Reflection;
 
 namespace Shared.Service.Extensions
 {
     public static class ServicesCollectionExtensions
     {
-        public static void AddAuthenticationConfig(this IServiceCollection services)
+        public static void AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
         {
+            var settings = configuration.GetSection("IdentityOptions").Get<IdentitySettings>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -17,7 +21,8 @@ namespace Shared.Service.Extensions
             })
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "https://localhost:7011";
+                options.Authority = settings.Authority;
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false

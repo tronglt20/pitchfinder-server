@@ -11,16 +11,16 @@ services.AddEndpointsApiExplorer();
 // Add Database Connection
 services.AddIAMDatabaseContext(builder.Configuration);
 
+// Add IdentityServer4
+services.AddIdentityServer4(builder.Configuration);
+
 // Add Authentication config
-services.AddAuthenticationConfig();
+services.AddAuthenticationConfig(builder.Configuration);
 // Add Authorization config
 services.AddAuthorizationConfig();
 
 // Config User claims info
 services.AddUserInfo();
-
-// Add IdentityServer4
-services.AddIdentityServer4(builder.Configuration);
 
 
 services.AddSwaggerGen();
