@@ -1,12 +1,31 @@
 ﻿using IAM.API.Identity;
 using IAM.API.Services;
+using IAM.Domain.Entities;
 using IAM.Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IAM.API.Extensions
 {
     public static class ServicesCollectionExtensions
     {
+        public static IServiceCollection AddIAMIdentity(this IServiceCollection services)
+        {
+            services
+                .AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
+                })
+                .AddEntityFrameworkStores<IAMDbContext>()
+                .AddDefaultTokenProviders();
+
+            return services;
+        }
+
         public static IServiceCollection AddIAMDatabaseContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<IAMDbContext>(options =>

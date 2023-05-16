@@ -7,7 +7,6 @@ namespace IAM.API.Services
     {
         private async Task<TokenResponse> RequestPasswordTokenAsync(HttpClient client
             , DiscoveryDocumentResponse disco
-            , IdentitySettings identitySettings
             , string userName
             , string password)
         {

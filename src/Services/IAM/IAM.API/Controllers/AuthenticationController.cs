@@ -23,5 +23,13 @@ namespace IAM.API.Controllers
             return await _authenticationService.SignInAsync(request.Username
                     , request.Password);
         }
+
+        [HttpPost("sign-up")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Signup([FromForm] SignUpRequest request)
+        {
+            var result = await _authenticationService.SignUpAsync(request);
+            return Ok();
+        }
     }
 }
