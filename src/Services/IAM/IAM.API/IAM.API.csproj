@@ -7,14 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Service\Shared.Service.csproj" />
     <ProjectReference Include="..\IAM.Domain\IAM.Domain.csproj" />
     <ProjectReference Include="..\IAM.Infrastructure\IAM.Infrastructure.csproj" />
   </ItemGroup>
