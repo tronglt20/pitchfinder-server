@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IAM.API.Controllers
 {
-    [Route("api/identity")]
+    [Route("api/iam/identity")]
     [Authorize()]
     public class IdentityController : ControllerBase
     {

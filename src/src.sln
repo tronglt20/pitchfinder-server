@@ -5,21 +5,25 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{34D76670-5A2D-4144-B3E5-12BDC3B18ECD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Service", "Services\Shared.Service\Shared.Service.csproj", "{281E3AB3-76BF-4CC8-B015-361376B75979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Service", "Services\Shared.Service\Shared.Service.csproj", "{281E3AB3-76BF-4CC8-B015-361376B75979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Domain", "Services\Shared.Domain\Shared.Domain.csproj", "{8E3469C0-3715-42DD-B4C2-C34866F084C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Domain", "Services\Shared.Domain\Shared.Domain.csproj", "{8E3469C0-3715-42DD-B4C2-C34866F084C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Infrastructure", "Services\Shared.Infrastructure\Shared.Infrastructure.csproj", "{601C9AEA-8F8B-4EF7-9744-84150CFF95F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Infrastructure", "Services\Shared.Infrastructure\Shared.Infrastructure.csproj", "{601C9AEA-8F8B-4EF7-9744-84150CFF95F5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IAM", "IAM", "{EDC33FDA-A517-4142-A1AD-82D92B8FF6B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAM.API", "Services\IAM\IAM.API\IAM.API.csproj", "{35498BBA-7E54-4385-BD40-F3B530F75AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.API", "Services\IAM\IAM.API\IAM.API.csproj", "{35498BBA-7E54-4385-BD40-F3B530F75AA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAM.Domain", "Services\IAM\IAM.Domain\IAM.Domain.csproj", "{58270B88-130E-4741-8BC5-F7E52FE1F706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Domain", "Services\IAM\IAM.Domain\IAM.Domain.csproj", "{58270B88-130E-4741-8BC5-F7E52FE1F706}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAM.Infrastructure", "Services\IAM\IAM.Infrastructure\IAM.Infrastructure.csproj", "{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Infrastructure", "Services\IAM\IAM.Infrastructure\IAM.Infrastructure.csproj", "{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8250A8D2-53AD-4416-BD3E-893C364C474F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIGateway", "APIGateway", "{4E51C186-FCBD-4586-828E-023C12B78A23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitchFinder.Gateway", "APIGateway\PitchFinder.Gateway\PitchFinder.Gateway.csproj", "{4C6D9DF1-3840-450A-BA46-E360634B0CE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +59,10 @@ Global
 		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +75,8 @@ Global
 		{35498BBA-7E54-4385-BD40-F3B530F75AA7} = {EDC33FDA-A517-4142-A1AD-82D92B8FF6B9}
 		{58270B88-130E-4741-8BC5-F7E52FE1F706} = {EDC33FDA-A517-4142-A1AD-82D92B8FF6B9}
 		{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402} = {EDC33FDA-A517-4142-A1AD-82D92B8FF6B9}
+		{4E51C186-FCBD-4586-828E-023C12B78A23} = {34D76670-5A2D-4144-B3E5-12BDC3B18ECD}
+		{4C6D9DF1-3840-450A-BA46-E360634B0CE9} = {4E51C186-FCBD-4586-828E-023C12B78A23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAA4B273-D5C7-4C43-8B53-2CC12A956927}

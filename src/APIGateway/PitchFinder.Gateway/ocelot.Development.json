@@ -1,0 +1,26 @@
+{
+  "Routes": [
+    // IAM APIs
+    {
+      "DownstreamPathTemplate": "/api/iam/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "iam.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/iam/{catchAll}",
+      "UpstreamHttpMethod": [],
+      "RouteIsCaseSensitive": true,
+      "UseServiceDiscovery": false,
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:7090"
+  }
+}

@@ -7,7 +7,7 @@ using Shared.Infrastructure.DTOs;
 
 namespace IAM.API.Controllers
 {
-    [Route("api/authentication")]
+    [Route("api/iam/authentication")]
     [Authorize]
     public class AuthenticationController : ControllerBase
     {
