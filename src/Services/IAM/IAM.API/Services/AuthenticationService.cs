@@ -33,9 +33,8 @@ namespace IAM.API.Services
                 , userName
                 , password);
 
-
             if (tokenResponse.IsError)
-                throw new Exception(tokenResponse.Exception.Message);
+                throw new Exception(tokenResponse.Error);
 
             return new SignInResponse
             {

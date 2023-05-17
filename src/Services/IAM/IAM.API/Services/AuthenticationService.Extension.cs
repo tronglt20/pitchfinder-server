@@ -10,7 +10,7 @@ namespace IAM.API.Services
             , string userName
             , string password)
         {
-            var passwordRequest =  new PasswordTokenRequest()
+            var passwordRequest = new PasswordTokenRequest()
             {
                 Address = disco.TokenEndpoint,
                 ClientId = IdentitySettings.ClientId,

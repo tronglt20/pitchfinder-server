@@ -39,7 +39,7 @@ namespace Shared.Service.Extensions
             return roleId;
         }
 
-        public static UserInfo CurrentUser(this HttpContext context)
+        public static IUserInfo CurrentUser(this HttpContext context)
         {
             return new UserInfo(context.UserId()
                 , context.UserName()
