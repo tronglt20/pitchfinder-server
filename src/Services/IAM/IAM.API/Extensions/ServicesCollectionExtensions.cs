@@ -57,6 +57,7 @@ namespace IAM.API.Extensions
                     .AddInMemoryApiScopes(configuration.GetSection("IdentityServer:ApiScopes"))
                     .AddInMemoryIdentityResources(Config.GetIdentityResources())
 				    .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
+                    .AddProfileService<ProfileService>()
                     .AddInMemoryPersistedGrants()
                     .AddDeveloperSigningCredential()
                     .AddAspNetIdentity<User>();
