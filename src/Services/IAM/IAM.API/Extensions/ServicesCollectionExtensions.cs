@@ -52,6 +52,7 @@ namespace IAM.API.Extensions
                     {
                         options.IssuerUri = configuration["IdentityServer:IssuerUri"];
                     })
+                    .AddAspNetIdentity<User>()
                     .AddDeveloperSigningCredential()
                     .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
                     .AddInMemoryApiScopes(configuration.GetSection("IdentityServer:ApiScopes"))
@@ -59,8 +60,7 @@ namespace IAM.API.Extensions
 				    .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
                     .AddProfileService<ProfileService>()
                     .AddInMemoryPersistedGrants()
-                    .AddDeveloperSigningCredential()
-                    .AddAspNetIdentity<User>();
+                    .AddDeveloperSigningCredential();
 
             return services;
         }

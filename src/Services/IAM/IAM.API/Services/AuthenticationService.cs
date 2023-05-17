@@ -3,6 +3,7 @@ using IAM.API.ViewModels.Authentication.Responses;
 using IAM.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Shared.Infrastructure.Dtos;
+using Shared.Infrastructure.DTOs;
 
 namespace IAM.API.Services
 {
@@ -10,12 +11,25 @@ namespace IAM.API.Services
     {
         private readonly IdentitySettings IdentitySettings;
         private readonly UserManager<User> _userManager;
-
+        private readonly IUserInfo _userInfo;
         public AuthenticationService(IdentitySettings identitySettings
-            , UserManager<User> userManager)
+            , UserManager<User> userManager
+            , IUserInfo userInfo)
         {
             IdentitySettings = identitySettings;
             _userManager = userManager;
+            _userInfo = userInfo;
+        }
+
+        public async Task<UserInfo> GetCurrentUserInfoAsync()
+        {
+            return new UserInfo
+            {
+                Id = _userInfo.Id,
+                Name = _userInfo.Name,
+                Email = _userInfo.Email,
+                RoleId = _userInfo.RoleId,
+            };
         }
 
         public async Task<SignInResponse> SignInAsync(string userName
@@ -55,9 +69,14 @@ namespace IAM.API.Services
                 var create = await _userManager.CreateAsync(user);
                 if (!create.Succeeded)
                     throw new Exception(create.Errors.FirstOrDefault().Description);
+
+                await _userManager.AddPasswordAsync(user, request.Password);
+            }
+            else
+            {
+                throw new Exception($"Email {user.Email} đã tồn tại.");
             }
 
-            await _userManager.AddPasswordAsync(user, request.Password);
             return user;
         }
     }

@@ -33,8 +33,7 @@ namespace IAM.API.Identity
         public async Task IsActiveAsync(IsActiveContext context)
         {
             var user = await _userManager.GetUserAsync(context.Subject);
-
-            context.IsActive = (user != null) && user.EmailConfirmed;
+            context.IsActive = user != null;
         }
     }
 }

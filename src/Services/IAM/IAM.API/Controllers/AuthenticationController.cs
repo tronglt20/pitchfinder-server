@@ -3,11 +3,13 @@ using IAM.API.ViewModels.Authentication.Requests;
 using IAM.API.ViewModels.Authentication.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Infrastructure.DTOs;
 
 namespace IAM.API.Controllers
 {
     [Route("api/authentication")]
-    public class AuthenticationController : Controller
+    [Authorize]
+    public class AuthenticationController : ControllerBase
     {
         private readonly AuthenticationService _authenticationService;
 
@@ -30,6 +32,12 @@ namespace IAM.API.Controllers
         {
             var result = await _authenticationService.SignUpAsync(request);
             return Ok();
+        }
+
+        [HttpGet("current-user")]
+        public async Task<UserInfo> GetCurrentUser()
+        {
+            return await _authenticationService.GetCurrentUserInfoAsync();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace IAM.API.Services
                 Address = authority,
                 Policy =
                 {
+                    RequireHttps = false,
                     ValidateIssuerName = false,
                     ValidateEndpoints = false,
                     AdditionalEndpointBaseAddresses = GetEndpoints(authority).ToList()
