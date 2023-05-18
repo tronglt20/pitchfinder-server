@@ -1,21 +1,15 @@
-using IAM.API.Extensions;
+using Pitch.API.Extensions;
 using Shared.Service.Extensions;
-
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = ConfigurationExtentions.Build();
 
 var services = builder.Services;
 
-services.AddControllers();
-services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
-services.AddIAMDatabaseContext(configuration);
-
-services.AddIAMIdentity();
-
-// Add IdentityServer4
-services.AddIdentityServer4(configuration);
+services.AddPitchDatabaseContext(configuration);
 
 // Config User claims info
 services.AddUserInfo();
@@ -28,7 +22,7 @@ services.AddServices();
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();
 
-services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -38,8 +32,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseIdentityServer();
 
 app.UseAuthentication();
 app.UseAuthorization();

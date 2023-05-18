@@ -10,7 +10,7 @@ namespace Shared.Service.Extensions
 {
     public static partial class ServicesCollectionExtensions
     {
-        public static void AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration.GetSection("IdentityOptions").Get<IdentitySettings>();
             services.AddSingleton(provider => settings);
@@ -29,9 +29,11 @@ namespace Shared.Service.Extensions
                     ValidateAudience = false
                 };
             });
+
+            return services;
         }
 
-        public static void AddAuthorizationConfig(this IServiceCollection services)
+        public static IServiceCollection AddAuthorizationConfig(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -41,6 +43,8 @@ namespace Shared.Service.Extensions
                     policy.RequireClaim("scope", "PitchFinderAPI");
                 });
             });
+
+            return services;
         }
 
         public static void AddUserInfo(this IServiceCollection services)
