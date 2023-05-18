@@ -8,7 +8,7 @@ namespace IAM.Infrastructure.EntitiesConfig
     {
         public void Configure(EntityTypeBuilder<UserRole> entity)
         {
-            entity.ToTable("UserRoles");
+            entity.ToTable("UserRole");
 
             entity.HasOne(d => d.Role)
                 .WithMany(p => p.UserRoles)
