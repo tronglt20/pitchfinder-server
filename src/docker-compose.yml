@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   iam.db:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
@@ -18,4 +19,7 @@ services:
     build:
       context: .
       dockerfile: APIGateway/PitchFinder.Gateway/Dockerfile
+      
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
 
