@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Shared.Service.Extensions
 {
-    public static class ServicesCollectionExtensions
+    public static partial class ServicesCollectionExtensions
     {
         public static void AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
         {

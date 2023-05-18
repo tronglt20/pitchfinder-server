@@ -3,25 +3,29 @@ using Shared.Service.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = ConfigurationExtentions.Build();
 
 var services = builder.Services;
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 
-services.AddIAMDatabaseContext(builder.Configuration);
+services.AddIAMDatabaseContext(configuration);
 
 services.AddIAMIdentity();
 
 // Add IdentityServer4
-services.AddIdentityServer4(builder.Configuration);
+services.AddIdentityServer4(configuration);
 
 // Config User claims info
 services.AddUserInfo();
 
+// Add S3
+services.AddS3Service(configuration);
+
 services.AddServices();
 
-services.AddAuthenticationConfig(builder.Configuration);
+services.AddAuthenticationConfig(configuration);
 services.AddAuthorizationConfig();
 
 services.AddSwaggerGen();

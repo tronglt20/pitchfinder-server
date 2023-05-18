@@ -7,12 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.shared.Development.json" />
+    <None Remove="appsettings.shared.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.shared.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.shared.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Utilities\PitchFinder.S3\PitchFinder.S3.csproj" />
     <ProjectReference Include="..\Shared.Domain\Shared.Domain.csproj" />
     <ProjectReference Include="..\Shared.Infrastructure\Shared.Infrastructure.csproj" />
   </ItemGroup>
