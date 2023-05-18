@@ -21,6 +21,6 @@ namespace IAM.Domain.Entities
         public int? AvatarId { get; set; }
 
         public virtual Attachment Avatar { get; set; }
-        public virtual ICollection<UserRole> UserRoles { get; private set; } = new HashSet<UserRole>();
+        public virtual ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
     }
 }

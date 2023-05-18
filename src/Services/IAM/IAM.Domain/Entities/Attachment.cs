@@ -23,6 +23,6 @@ namespace IAM.Domain.Entities
         public float Size { get; set; }
         public string Extension { get; set; }
 
-        public virtual ICollection<User> Users { get; private set; } = new HashSet<User>();
+        public virtual ICollection<User> Users { get; set; } = new HashSet<User>();
     }
 }
