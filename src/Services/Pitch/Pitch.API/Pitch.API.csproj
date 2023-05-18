@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\PitchFinder.S3\PitchFinder.S3.csproj" />
-    <ProjectReference Include="..\..\Shared.Service\Shared.Service.csproj" />
+    <ProjectReference Include="..\..\Shared.API\Shared.API.csproj" />
     <ProjectReference Include="..\Pitch.Domain\Pitch.Domain.csproj" />
     <ProjectReference Include="..\Pitch.Infrastructure\Pitch.Infrastructure.csproj" />
   </ItemGroup>

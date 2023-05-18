@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{34D76670-5A2D-4144-B3E5-12BDC3B18ECD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Service", "Services\Shared.Service\Shared.Service.csproj", "{281E3AB3-76BF-4CC8-B015-361376B75979}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Domain", "Services\Shared.Domain\Shared.Domain.csproj", "{8E3469C0-3715-42DD-B4C2-C34866F084C8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Infrastructure", "Services\Shared.Infrastructure\Shared.Infrastructure.csproj", "{601C9AEA-8F8B-4EF7-9744-84150CFF95F5}"
@@ -39,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Infrastructure", "Ser
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceBus", "ServiceBus", "{5A75C381-1719-439A-A140-B407CDE8DD57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitchFinder.RambitMQ", "ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj", "{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitchFinder.RambitMQ", "ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj", "{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.API", "Services\Shared.API\Shared.API.csproj", "{688BCEAC-1F61-4895-B6AF-F0035B718EAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{281E3AB3-76BF-4CC8-B015-361376B75979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{281E3AB3-76BF-4CC8-B015-361376B75979}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{281E3AB3-76BF-4CC8-B015-361376B75979}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{281E3AB3-76BF-4CC8-B015-361376B75979}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E3469C0-3715-42DD-B4C2-C34866F084C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E3469C0-3715-42DD-B4C2-C34866F084C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E3469C0-3715-42DD-B4C2-C34866F084C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,12 +95,15 @@ Global
 		{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{688BCEAC-1F61-4895-B6AF-F0035B718EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{688BCEAC-1F61-4895-B6AF-F0035B718EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{688BCEAC-1F61-4895-B6AF-F0035B718EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{688BCEAC-1F61-4895-B6AF-F0035B718EAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{281E3AB3-76BF-4CC8-B015-361376B75979} = {34D76670-5A2D-4144-B3E5-12BDC3B18ECD}
 		{8E3469C0-3715-42DD-B4C2-C34866F084C8} = {34D76670-5A2D-4144-B3E5-12BDC3B18ECD}
 		{601C9AEA-8F8B-4EF7-9744-84150CFF95F5} = {34D76670-5A2D-4144-B3E5-12BDC3B18ECD}
 		{EDC33FDA-A517-4142-A1AD-82D92B8FF6B9} = {34D76670-5A2D-4144-B3E5-12BDC3B18ECD}
@@ -119,6 +118,7 @@ Global
 		{1AC05F28-6396-4861-870E-8CF835CA1C87} = {8C972B4B-1859-46AA-95D3-1A7AE484D9DB}
 		{575810CA-D32E-4A58-8EB9-B8A65DCECF15} = {8C972B4B-1859-46AA-95D3-1A7AE484D9DB}
 		{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A} = {5A75C381-1719-439A-A140-B407CDE8DD57}
+		{688BCEAC-1F61-4895-B6AF-F0035B718EAA} = {34D76670-5A2D-4144-B3E5-12BDC3B18ECD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAA4B273-D5C7-4C43-8B53-2CC12A956927}

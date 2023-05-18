@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Shared.Infrastructure.DTOs;
 
-namespace Shared.Service.Extensions
+namespace Shared.API.Extensions
 {
     public static class HttpContextExtensions
     {

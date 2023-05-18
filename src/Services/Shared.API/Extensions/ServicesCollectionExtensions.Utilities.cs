@@ -9,9 +9,9 @@ using PitchFinder.S3.Dtos;
 using PitchFinder.S3.Interfaces;
 using MassTransit;
 
-namespace Shared.Service.Extensions
+namespace Shared.API.Extensions
 {
-    public partial class ServicesCollectionExtensions
+    public static partial class ServicesCollectionExtensions
     {
         public static IServiceCollection AddRambitMQ(this IServiceCollection services, IConfiguration configuration)
         {

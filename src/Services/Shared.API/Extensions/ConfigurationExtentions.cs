@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Shared.Service.Extensions
+namespace Shared.API.Extensions
 {
     public static class ConfigurationExtentions
     {

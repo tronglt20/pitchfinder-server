@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Shared.Infrastructure.Dtos;
 using System.Reflection;
 
-namespace Shared.Service.Extensions
+namespace Shared.API.Extensions
 {
     public static partial class ServicesCollectionExtensions
     {
