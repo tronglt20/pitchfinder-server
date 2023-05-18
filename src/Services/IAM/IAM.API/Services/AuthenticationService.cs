@@ -21,15 +21,9 @@ namespace IAM.API.Services
             _userInfo = userInfo;
         }
 
-        public async Task<UserInfo> GetCurrentUserInfoAsync()
+        public async Task<UserInfo?> GetCurrentUserInfoAsync()
         {
-            return new UserInfo
-            {
-                Id = _userInfo.Id,
-                Name = _userInfo.Name,
-                Email = _userInfo.Email,
-                RoleId = _userInfo.RoleId,
-            };
+            return _userInfo as UserInfo;
         }
 
         public async Task<SignInResponse> SignInAsync(string userName
@@ -50,13 +44,7 @@ namespace IAM.API.Services
             if (tokenResponse.IsError)
                 throw new Exception(tokenResponse.Error);
 
-            return new SignInResponse
-            {
-                TokenType = tokenResponse.TokenType,
-                AccessToken = tokenResponse.AccessToken,
-                RefreshToken = tokenResponse.RefreshToken,
-                ExpiresIn = tokenResponse.ExpiresIn,
-            };
+            return new SignInResponse(tokenResponse);
         }
 
         public async Task<User> SignUpAsync(SignUpRequest request)
@@ -65,7 +53,7 @@ namespace IAM.API.Services
 
             if (user == null)
             {
-                user = new User(request.Email);
+                user = new User(request.Name, request.Email);
                 var create = await _userManager.CreateAsync(user);
                 if (!create.Succeeded)
                     throw new Exception(create.Errors.FirstOrDefault().Description);
@@ -73,9 +61,7 @@ namespace IAM.API.Services
                 await _userManager.AddPasswordAsync(user, request.Password);
             }
             else
-            {
                 throw new Exception($"Email {user.Email} đã tồn tại.");
-            }
 
             return user;
         }

@@ -1,7 +1,17 @@
-﻿namespace IAM.API.ViewModels.Authentication.Responses
+﻿using IdentityModel.Client;
+
+namespace IAM.API.ViewModels.Authentication.Responses
 {
-    public class SignInResponse 
+    public class SignInResponse
     {
+        public SignInResponse(TokenResponse tokenResponse)
+        {
+            TokenType = tokenResponse.TokenType;
+            AccessToken = tokenResponse.AccessToken;
+            RefreshToken = tokenResponse.RefreshToken;
+            ExpiresIn = tokenResponse.ExpiresIn;
+        }
+
         public string HomeUrl { get; set; }
         public string TokenType { get; set; }
         public string AccessToken { get; set; }

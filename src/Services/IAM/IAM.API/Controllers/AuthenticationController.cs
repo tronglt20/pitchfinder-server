@@ -35,7 +35,7 @@ namespace IAM.API.Controllers
         }
 
         [HttpGet("current-user")]
-        public async Task<UserInfo> GetCurrentUser()
+        public async Task<UserInfo?> GetCurrentUser()
         {
             return await _authenticationService.GetCurrentUserInfoAsync();
         }

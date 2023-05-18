@@ -1,6 +1,8 @@
-﻿using IAM.Domain.Entities;
+﻿#nullable disable
+using IAM.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace IAM.Infrastructure
 {
@@ -10,12 +12,14 @@ namespace IAM.Infrastructure
         {
         }
 
+        public virtual DbSet<Attachment> Attachments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // Update default Asp table name
             RemoveDefaultAspTableName(builder);
+
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(IAMDbContext)));
         }
 
         public void RemoveDefaultAspTableName(ModelBuilder builder)
