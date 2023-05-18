@@ -9,16 +9,16 @@ namespace IAM.Domain.Entities
 
         }
 
-        public User(string name, string email)
+        public User(string email)
         {
-            UserName = name;
-            NormalizedUserName = name;
+            UserName = email;
+            NormalizedUserName = email;
             Email = email;
             NormalizedEmail = email;
         }
 
         public string Address { get; set; }
-        public int AvatarId { get; set; }
+        public int? AvatarId { get; set; }
 
         public virtual Attachment Avatar { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; private set; } = new HashSet<UserRole>();

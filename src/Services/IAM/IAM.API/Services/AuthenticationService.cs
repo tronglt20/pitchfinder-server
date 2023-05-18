@@ -42,7 +42,7 @@ namespace IAM.API.Services
                 , password);
 
             if (tokenResponse.IsError)
-                throw new Exception(tokenResponse.Error);
+                throw new Exception(tokenResponse.ErrorDescription);
 
             return new SignInResponse(tokenResponse);
         }
@@ -53,7 +53,7 @@ namespace IAM.API.Services
 
             if (user == null)
             {
-                user = new User(request.Name, request.Email);
+                user = new User(request.Email);
                 var create = await _userManager.CreateAsync(user);
                 if (!create.Succeeded)
                     throw new Exception(create.Errors.FirstOrDefault().Description);

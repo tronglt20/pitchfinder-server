@@ -10,6 +10,12 @@ namespace IAM.Infrastructure.EntitiesConfig
         {
             entity.ToTable("User");
 
+            entity.Property(u => u.Address)
+                .IsRequired(false);
+
+            entity.Property(u => u.AvatarId)
+                .IsRequired(false);
+
             entity.HasOne(d => d.Avatar)
                 .WithMany(p => p.Users)
                 .HasForeignKey(d => d.AvatarId)

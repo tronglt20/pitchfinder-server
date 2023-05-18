@@ -92,10 +92,9 @@ namespace IAM.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AvatarId")
+                    b.Property<int?>("AvatarId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IAM.Infrastructure.Migrations
 {
     [DbContext(typeof(IAMDbContext))]
-    [Migration("20230518012156_initial")]
+    [Migration("20230518031349_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,10 +94,9 @@ namespace IAM.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AvatarId")
+                    b.Property<int?>("AvatarId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
