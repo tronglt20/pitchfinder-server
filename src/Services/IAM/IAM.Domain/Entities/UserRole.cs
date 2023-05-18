@@ -9,7 +9,7 @@ namespace IAM.Domain.Entities
 
         }
 
-        public virtual Role Role { get; private set; }
-        public virtual User User { get; private set; }
+        public virtual Role Role { get; set; }
+        public virtual User User { get; set; }
     }
 }

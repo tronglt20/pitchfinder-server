@@ -6,8 +6,8 @@ var configuration = ConfigurationExtentions.Build();
 
 var services = builder.Services;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+services.AddControllers();
+services.AddEndpointsApiExplorer();
 
 services.AddPitchDatabaseContext(configuration);
 
@@ -22,7 +22,7 @@ services.AddServices();
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();
 
-builder.Services.AddSwaggerGen();
+services.AddSwaggerGen();
 
 var app = builder.Build();
 

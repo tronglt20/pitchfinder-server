@@ -17,6 +17,8 @@ namespace Pitch.Domain.Entities
         public int StoreId { get; set; }
 
         public Store Store { get; set; }
+        public virtual ICollection<PitchVersion> PitchVersions { get; set; } = new HashSet<PitchVersion>();
+        public virtual ICollection<PitchAttachment> PitchAttachments { get; set; } = new HashSet<PitchAttachment>();
 
     }
 }

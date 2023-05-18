@@ -1,6 +1,15 @@
 version: '3.4'
 
 services:
+  pitch.db: 
+    container_name: pitch.db
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Abc@@123"
+    restart: always
+    ports:
+        - "1436:1433"
+
   iam.db: 
     container_name: iam.db
     environment:
