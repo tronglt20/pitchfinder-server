@@ -8,20 +8,19 @@ namespace Pitch.API.Extensions
 
         public static IServiceCollection AddPitchDatabaseContext(this IServiceCollection services, IConfiguration configuration)
         {
-            var t = configuration.GetValue<string>("DatabaseSettings:ConnectionString");
             services.AddDbContext<PitchDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
             });
 
             // Database Migrations
-            /*using (var scope = services.BuildServiceProvider().CreateScope())
+            using (var scope = services.BuildServiceProvider().CreateScope())
             {
                 var servicesMigration = scope.ServiceProvider;
                 var context = servicesMigration.GetRequiredService<PitchDbContext>();
                 if (context.Database.GetPendingMigrations().Any())
                     context.Database.Migrate();
-            }*/
+            }
 
             return services;
         }

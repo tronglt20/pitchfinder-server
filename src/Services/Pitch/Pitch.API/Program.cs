@@ -14,6 +14,9 @@ services.AddPitchDatabaseContext(configuration);
 // Config User claims info
 services.AddUserInfo();
 
+// Config User claims info
+services.AddUserInfo();
+
 // Add S3
 services.AddS3Service(configuration);
 
