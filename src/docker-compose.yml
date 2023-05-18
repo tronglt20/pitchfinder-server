@@ -9,3 +9,10 @@ services:
     build:
       context: .
       dockerfile: Services/IAM/IAM.API/Dockerfile
+
+  pitchfinder.gateway:
+    image: ${DOCKER_REGISTRY-}pitchfindergateway
+    build:
+      context: .
+      dockerfile: APIGateway/PitchFinder.Gateway/Dockerfile
+

@@ -18,3 +18,12 @@ services:
       - iam.db
     ports:
       - "8011:80"
+
+  pitchfinder.gateway:
+    container_name: pitchfinder.gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - iam.api
+    ports:
+      - "8090:80"
