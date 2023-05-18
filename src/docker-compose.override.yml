@@ -14,9 +14,6 @@ services:
     container_name: iam.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=Server=iam.db;Database=iam.db;User Id=sa;Password=Abc@@123;"
-      - "IdentityServer:IssuerUri=http://iam.api"
-      - "IdentityOptions:Authority=http://iam.api"
     depends_on:
       - iam.db
     ports:

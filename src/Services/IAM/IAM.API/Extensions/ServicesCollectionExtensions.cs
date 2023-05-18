@@ -34,13 +34,13 @@ namespace IAM.API.Extensions
             });
 
             // Database Migrations
-            using (var scope = services.BuildServiceProvider().CreateScope())
+            /*using (var scope = services.BuildServiceProvider().CreateScope())
             {
                 var servicesMigration = scope.ServiceProvider;
                 var context = servicesMigration.GetRequiredService<IAMDbContext>();
                 if (context.Database.GetPendingMigrations().Any())
                     context.Database.Migrate();
-            }
+            }*/
 
             return services;
         }
