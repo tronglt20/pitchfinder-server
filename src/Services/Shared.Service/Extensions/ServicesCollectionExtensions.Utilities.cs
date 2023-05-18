@@ -7,15 +7,27 @@ using Microsoft.Extensions.DependencyInjection;
 using PitchFinder.S3;
 using PitchFinder.S3.Dtos;
 using PitchFinder.S3.Interfaces;
+using MassTransit;
 
 namespace Shared.Service.Extensions
 {
     public partial class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddS3Service(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRambitMQ(this IServiceCollection services, IConfiguration configuration)
         {
-            var settings2 = configuration
-                        .GetSection("S3Settings");
+            services.AddMassTransit(_ =>
+            {
+                _.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(configuration["EventBusSettings:HostAddress"]);
+                });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddS3(this IServiceCollection services, IConfiguration configuration)
+        {
             var settings = configuration
                         .GetSection("S3Settings")
                         .Get<S3Settings>();

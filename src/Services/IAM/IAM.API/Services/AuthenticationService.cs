@@ -1,7 +1,9 @@
 ﻿using IAM.API.ViewModels.Authentication.Requests;
 using IAM.API.ViewModels.Authentication.Responses;
 using IAM.Domain.Entities;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
+using PitchFinder.RambitMQ.Events;
 using Shared.Infrastructure.Dtos;
 using Shared.Infrastructure.DTOs;
 
@@ -12,13 +14,17 @@ namespace IAM.API.Services
         private readonly IdentitySettings IdentitySettings;
         private readonly UserManager<User> _userManager;
         private readonly IUserInfo _userInfo;
+        private readonly IPublishEndpoint _publishEndpoint;
+
         public AuthenticationService(IdentitySettings identitySettings
             , UserManager<User> userManager
-            , IUserInfo userInfo)
+            , IUserInfo userInfo
+            , IPublishEndpoint publishEndpoint)
         {
             IdentitySettings = identitySettings;
             _userManager = userManager;
             _userInfo = userInfo;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<UserInfo?> GetCurrentUserInfoAsync()
@@ -59,6 +65,7 @@ namespace IAM.API.Services
                     throw new Exception(create.Errors.FirstOrDefault().Description);
 
                 await _userManager.AddPasswordAsync(user, request.Password);
+                await _publishEndpoint.Publish(new UserIntergrationEvent());
             }
             else
                 throw new Exception($"Email {user.Email} đã tồn tại.");

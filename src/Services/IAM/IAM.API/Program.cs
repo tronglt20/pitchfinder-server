@@ -20,8 +20,9 @@ services.AddIdentityServer4(configuration);
 // Config User claims info
 services.AddUserInfo();
 
-// Add S3
-services.AddS3Service(configuration);
+// Add Utilities Services
+services.AddS3(configuration)
+        .AddRambitMQ(configuration);
 
 services.AddServices();
 

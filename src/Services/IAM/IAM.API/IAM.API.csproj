@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj" />
     <ProjectReference Include="..\..\Shared.Service\Shared.Service.csproj" />
     <ProjectReference Include="..\IAM.Domain\IAM.Domain.csproj" />
     <ProjectReference Include="..\IAM.Infrastructure\IAM.Infrastructure.csproj" />
