@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.0.15" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.15" />
+    <ProjectReference Include="..\src\ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj" />
   </ItemGroup>
 
 </Project>

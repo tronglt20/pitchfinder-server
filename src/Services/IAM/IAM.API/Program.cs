@@ -1,6 +1,7 @@
 using IAM.API.Extensions;
 using Shared.API.Extensions;
-
+using PitchFinder.RambitMQ.Extensions;
+using PitchFinder.RambitMQ.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = ConfigurationExtentions.Build();
@@ -22,7 +23,7 @@ services.AddUserInfo();
 
 // Add Utilities Services
 services.AddS3(configuration)
-        .AddRambitMQ(configuration);
+        .AddRambitMQ(configuration, typeof(IntergrantionHandlerBase<>));
 
 services.AddServices();
 

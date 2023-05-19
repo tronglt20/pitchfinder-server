@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceBus", "ServiceBus", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitchFinder.RambitMQ", "ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj", "{5FFBA777-2ADC-40BA-ADE6-8A3D4BA2309A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.API", "Services\Shared.API\Shared.API.csproj", "{688BCEAC-1F61-4895-B6AF-F0035B718EAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.API", "Services\Shared.API\Shared.API.csproj", "{688BCEAC-1F61-4895-B6AF-F0035B718EAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

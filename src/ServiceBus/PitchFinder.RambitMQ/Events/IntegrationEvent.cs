@@ -2,15 +2,15 @@
 
 namespace PitchFinder.RambitMQ.Events
 {
-    public class IntergrationEvent
+    public class IntegrationEvent
     {
-        public IntergrationEvent()
+        public IntegrationEvent()
         {
             EventId = Guid.NewGuid();
             CreationDate = DateTime.UtcNow;
         }
 
-        public IntergrationEvent(Guid id, DateTime createDate)
+        public IntegrationEvent(Guid id, DateTime createDate)
         {
             EventId = id;
             CreationDate = createDate;
