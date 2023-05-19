@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PitchFinder.RambitMQ.Events;
+using PitchFinder.RambitMQ.Handlers;
 
 namespace PitchFinder.RambitMQ.Extensions
 {
@@ -11,11 +11,11 @@ namespace PitchFinder.RambitMQ.Extensions
             , IConfiguration configuration
             , Type implementAssemblyType)
         {
-            var eventCollection = new IntegrationEventCollection(implementAssemblyType);
-            services.AddScoped(_ => eventCollection);
+            var handlerCollection = new EventHandlerCollection(implementAssemblyType);
+            services.AddScoped(_ => handlerCollection);
             services.AddMassTransit(_ =>
             {
-                _.AddConsumers(eventCollection.ToArray());
+                _.AddConsumers(handlerCollection.ToArray());
                 _.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(configuration["EventBusSettings:HostAddress"]);

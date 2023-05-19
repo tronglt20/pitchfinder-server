@@ -1,8 +1,8 @@
-﻿namespace PitchFinder.RambitMQ.Events
+﻿namespace PitchFinder.RambitMQ.Handlers
 {
-    public class IntegrationEventCollection : List<Type>
+    public class EventHandlerCollection : List<Type>
     {
-        public IntegrationEventCollection(Type implementType)
+        public EventHandlerCollection(Type implementType)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var derivedTypes = assemblies

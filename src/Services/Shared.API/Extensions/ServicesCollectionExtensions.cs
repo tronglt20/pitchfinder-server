@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Domain.Interfaces;
+using Shared.Infrastructure;
 using Shared.Infrastructure.Dtos;
 using System.Reflection;
 
@@ -56,18 +59,34 @@ namespace Shared.API.Extensions
             });
         }
 
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services) where TContext : DbContext
+        {
+            return services
+                .AddScoped(typeof(IUnitOfWorkBase<>), typeof(UnitOfWorkBase<>))
+                .AddScoped(typeof(IUnitOfWorkBase), typeof(UnitOfWorkBase<TContext>));
+        }
+
+        public static IServiceCollection AddBaseRepositories(this IServiceCollection services)
+        {
+            return services
+                .AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>))
+                .AddImplementationInterfaces(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        }
+
         public static IServiceCollection AddImplementationInterfaces(this IServiceCollection services
            , Type interfaceType
            , Type implementAssemblyType)
         {
-            var implementTypes = Assembly.GetAssembly(implementAssemblyType).GetTypes().Where(_ =>
-                        _.IsClass
-                        && !_.IsAbstract
-                        && !_.IsInterface
-                        && !_.IsGenericType
-                        && _.GetInterface(interfaceType.Name) != null);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var derivedTypes = assemblies
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => type.IsSubclassOf(implementAssemblyType) ||
+                               (implementAssemblyType.IsGenericTypeDefinition &&
+                                type.BaseType != null &&
+                                type.BaseType.IsGenericType &&
+                                type.BaseType.GetGenericTypeDefinition() == implementAssemblyType));
 
-            foreach (var implementType in implementTypes)
+            foreach (var implementType in derivedTypes)
             {
                 var mainInterfaces = implementType
                     .GetInterfaces()

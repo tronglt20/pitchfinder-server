@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Pitch.Domain\Pitch.Domain.csproj" />
   </ItemGroup>
 

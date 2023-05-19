@@ -2,6 +2,7 @@ using Pitch.API.Extensions;
 using Shared.API.Extensions;
 using PitchFinder.RambitMQ.Extensions;
 using PitchFinder.RambitMQ.Handlers;
+using Pitch.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = ConfigurationExtentions.Build();
@@ -23,7 +24,10 @@ services.AddUserInfo();
 services.AddS3(configuration)
         .AddRambitMQ(configuration, typeof(IntergrantionHandlerBase<>));
 
-services.AddServices();
+services
+    .AddUnitOfWork<PitchDbContext>()
+    .AddBaseRepositories()
+    .AddServices();
 
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();
