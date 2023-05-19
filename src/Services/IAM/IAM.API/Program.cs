@@ -12,7 +12,6 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 
 services.AddIAMDatabaseContext(configuration);
-
 services.AddIAMIdentity();
 
 // Add IdentityServer4
@@ -21,14 +20,14 @@ services.AddIdentityServer4(configuration);
 // Config User claims info
 services.AddUserInfo();
 
-// Add Utilities Services
-services.AddS3(configuration)
-        .AddRambitMQ(configuration, typeof(IntergrantionHandlerBase<>));
-
 services.AddServices();
 
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();
+
+// Add Utilities Services
+services.AddS3(configuration)
+        .AddRambitMQ(configuration);
 
 services.AddSwaggerGen();
 

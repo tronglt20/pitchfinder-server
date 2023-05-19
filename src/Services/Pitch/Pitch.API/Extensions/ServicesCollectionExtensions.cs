@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Pitch.API.IntergrationHandlers;
 using Pitch.Infrastructure;
+using PitchFinder.RambitMQ.Handlers;
 
 namespace Pitch.API.Extensions
 {
     public static class ServicesCollectionExtensions
     {
-
         public static IServiceCollection AddPitchDatabaseContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<PitchDbContext>(options =>

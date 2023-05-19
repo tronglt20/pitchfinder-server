@@ -8,23 +8,22 @@ namespace PitchFinder.RambitMQ.Extensions
     public static class ServicesCollectionExtensions
     {
         public static IServiceCollection AddRambitMQ(this IServiceCollection services
-            , IConfiguration configuration
-            , Type implementAssemblyType)
+            , IConfiguration configuration)
         {
-            var handlerCollection = new EventHandlerCollection(implementAssemblyType);
-            services.AddScoped(_ => handlerCollection);
+            var handlerCollection = new EventHandlerCollection(typeof(IntergrantionHandlerBase<>));
             services.AddMassTransit(_ =>
             {
                 _.AddConsumers(handlerCollection.ToArray());
                 _.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(configuration["EventBusSettings:HostAddress"]);
-                    cfg.ReceiveEndpoint("pitchfinder-queue", c =>
+                    cfg.ReceiveEndpoint($"{AppDomain.CurrentDomain.FriendlyName}-queue", c =>
                     {
                         c.ConfigureConsumers(ctx);
                     });
                 });
             });
+            services.AddScoped(_ => handlerCollection);
 
             return services;
         }

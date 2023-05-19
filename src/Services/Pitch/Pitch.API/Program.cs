@@ -17,17 +17,14 @@ services.AddPitchDatabaseContext(configuration);
 // Config User claims info
 services.AddUserInfo();
 
-// Config User claims info
-services.AddUserInfo();
-
-// Add Utilities Services
-services.AddS3(configuration)
-        .AddRambitMQ(configuration, typeof(IntergrantionHandlerBase<>));
-
 services
     .AddUnitOfWork<PitchDbContext>()
     .AddBaseRepositories()
     .AddServices();
+
+// Add Utilities Services
+services.AddS3(configuration)
+        .AddRambitMQ(configuration);
 
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();
