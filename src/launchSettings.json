@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "iam.api": "StartDebugging",
+        "pitch.api": "StartDebugging",
+        "pitchfinder.gateway": "StartDebugging"
+      }
+    }
+  }
+}

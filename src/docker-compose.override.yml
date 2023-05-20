@@ -29,6 +29,17 @@ services:
     ports:
       - "8011:80"
 
+
+  pitch.api:
+    container_name: pitch.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - pitch.db
+    ports:
+      - "8012:80"
+
+
   pitchfinder.gateway:
     container_name: pitchfinder.gateway
     environment:
