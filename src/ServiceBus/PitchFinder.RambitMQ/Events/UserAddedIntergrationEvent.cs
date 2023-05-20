@@ -2,6 +2,10 @@
 {
     public class UserAddedIntergrationEvent : IntegrationEvent
     {
+        public UserAddedIntergrationEvent()
+        {
+            
+        }
         public UserAddedIntergrationEvent(int id, string email)
         {
             UserId = id;
