@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Shared.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace IAM.API.ViewModels.Authentication.Requests
 {
@@ -14,5 +15,15 @@ namespace IAM.API.ViewModels.Authentication.Requests
 
         [Compare(nameof(Password))]
         public string PasswordConfirm { get; set; }
+
+        public bool IsCustomer { get; set; } = true;
+
+        public int RoleId()
+        {
+            if (IsCustomer)
+                return (int)RoleEnum.Customer;
+
+            return (int)RoleEnum.Owner;
+        }
     }
 }

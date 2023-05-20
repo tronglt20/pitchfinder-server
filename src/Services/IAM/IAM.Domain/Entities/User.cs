@@ -9,12 +9,13 @@ namespace IAM.Domain.Entities
 
         }
 
-        public User(string email)
+        public User(string email, Role role)
         {
             UserName = email;
             NormalizedUserName = email;
             Email = email;
             NormalizedEmail = email;
+            UserRoles.Add(new UserRole(this, role));
         }
 
         public string Address { get; set; }

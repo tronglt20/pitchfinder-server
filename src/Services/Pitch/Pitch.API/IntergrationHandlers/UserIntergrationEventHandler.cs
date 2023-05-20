@@ -11,20 +11,29 @@ namespace Pitch.API.IntergrationHandlers
     public class UserIntergrationEventHandler : IntergrantionHandlerBase<UserAddedIntergrationEvent>
     {
         private readonly IUserRepository _userRepo;
+        private readonly IStoreRepository _storeRepo;
         private readonly IUnitOfWorkBase<PitchDbContext> _unitOfWorkBase;
         public UserIntergrationEventHandler(IUserRepository userRepo
-            , IUnitOfWorkBase<PitchDbContext> unitOfWorkBase)
+            , IUnitOfWorkBase<PitchDbContext> unitOfWorkBase
+            , IStoreRepository storeRepo)
         {
             _userRepo = userRepo;
             _unitOfWorkBase = unitOfWorkBase;
+            _storeRepo = storeRepo;
         }
 
         public override async Task Consume(ConsumeContext<UserAddedIntergrationEvent> context)
         {
             var @event = context.Message;
+            var user = new User(@event.UserId, @event.Email);
 
-            await _userRepo.InsertAsync(new User(@event.UserId, @event.Email));
+            if (!@event.IsCustomer)
+            {
+                var store = new Store();
+                await _storeRepo.InsertAsync(store);
+            }
 
+            await _userRepo.InsertAsync(user);
             await _unitOfWorkBase.SaveChangesAsync();
         }
     }

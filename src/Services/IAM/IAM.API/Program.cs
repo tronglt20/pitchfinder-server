@@ -1,4 +1,5 @@
 using IAM.API.Extensions;
+using IAM.Infrastructure;
 using PitchFinder.RambitMQ.Extensions;
 using Shared.API.Extensions;
 
@@ -19,7 +20,10 @@ services.AddIdentityServer4(configuration);
 // Config User claims info
 services.AddUserInfo();
 
-services.AddServices();
+services
+    .AddUnitOfWork<IAMDbContext>()
+    .AddBaseRepositories()
+    .AddServices();
 
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();

@@ -1,6 +1,7 @@
 ﻿using IAM.API.ViewModels.Authentication.Requests;
 using IAM.API.ViewModels.Authentication.Responses;
 using IAM.Domain.Entities;
+using IAM.Domain.Interfaces;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using PitchFinder.RambitMQ.Events;
@@ -15,16 +16,19 @@ namespace IAM.API.Services
         private readonly UserManager<User> _userManager;
         private readonly IUserInfo _userInfo;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IRoleRepository _roleRepo;
 
         public AuthenticationService(IdentitySettings identitySettings
             , UserManager<User> userManager
             , IUserInfo userInfo
-            , IPublishEndpoint publishEndpoint)
+            , IPublishEndpoint publishEndpoint
+            , IRoleRepository roleRepo)
         {
             IdentitySettings = identitySettings;
             _userManager = userManager;
             _userInfo = userInfo;
             _publishEndpoint = publishEndpoint;
+            _roleRepo = roleRepo;
         }
 
         public async Task<UserInfo?> GetCurrentUserInfoAsync()
@@ -59,13 +63,17 @@ namespace IAM.API.Services
 
             if (user == null)
             {
-                user = new User(request.Email);
+                var role = await _roleRepo.GetByIdAsync(request.RoleId());
+                if(role == null)
+                    throw new Exception($"Role not found");
+
+                user = new User(request.Email, role);
                 var create = await _userManager.CreateAsync(user);
                 if (!create.Succeeded)
                     throw new Exception(create.Errors.FirstOrDefault().Description);
 
                 await _userManager.AddPasswordAsync(user, request.Password);
-                await _publishEndpoint.Publish(new UserAddedIntergrationEvent(user.Id, user.Email));
+                await _publishEndpoint.Publish(new UserAddedIntergrationEvent(user.Id, user.Email, request.IsCustomer));
             }
             else
                 throw new Exception($"Email {user.Email} đã tồn tại.");
