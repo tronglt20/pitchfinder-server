@@ -9,8 +9,9 @@ namespace Pitch.Domain.Entities
 
         }
 
-        public User(string email)
+        public User(int id, string email)
         {
+            Id = id;
             UserName = email;
             NormalizedUserName = email;
             Email = email;

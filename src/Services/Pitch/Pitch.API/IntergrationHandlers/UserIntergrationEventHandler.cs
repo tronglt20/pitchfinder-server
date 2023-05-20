@@ -23,7 +23,7 @@ namespace Pitch.API.IntergrationHandlers
         {
             var @event = context.Message;
 
-            await _userRepo.InsertAsync(new User(@event.Email));
+            await _userRepo.InsertAsync(new User(@event.UserId, @event.Email));
 
             await _unitOfWorkBase.SaveChangesAsync();
         }

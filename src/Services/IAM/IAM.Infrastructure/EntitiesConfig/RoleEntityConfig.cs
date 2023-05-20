@@ -9,6 +9,8 @@ namespace IAM.Infrastructure.EntitiesConfig
         public void Configure(EntityTypeBuilder<Role> entity)
         {
             entity.ToTable("Role");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
         }
     }
 }

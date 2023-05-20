@@ -65,7 +65,7 @@ namespace IAM.API.Services
                     throw new Exception(create.Errors.FirstOrDefault().Description);
 
                 await _userManager.AddPasswordAsync(user, request.Password);
-                await _publishEndpoint.Publish(new UserAddedIntergrationEvent(request.Email));
+                await _publishEndpoint.Publish(new UserAddedIntergrationEvent(user.Id, user.Email));
             }
             else
                 throw new Exception($"Email {user.Email} đã tồn tại.");

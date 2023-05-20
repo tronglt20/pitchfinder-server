@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IAM.Infrastructure.Migrations
 {
     [DbContext(typeof(IAMDbContext))]
-    [Migration("20230518035251_initial")]
+    [Migration("20230520095054_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,10 +55,7 @@ namespace IAM.Infrastructure.Migrations
             modelBuilder.Entity("IAM.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

@@ -1,7 +1,6 @@
 using IAM.API.Extensions;
-using Shared.API.Extensions;
 using PitchFinder.RambitMQ.Extensions;
-using PitchFinder.RambitMQ.Handlers;
+using Shared.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = ConfigurationExtentions.Build();

@@ -9,6 +9,8 @@ namespace Pitch.Infrastructure.EntitiesConfig
         public void Configure(EntityTypeBuilder<User> entity)
         {
             entity.ToTable("User");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
         }
     }
 }

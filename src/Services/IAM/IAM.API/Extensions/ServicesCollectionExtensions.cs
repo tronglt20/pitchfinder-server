@@ -2,6 +2,7 @@
 using IAM.API.Services;
 using IAM.Domain.Entities;
 using IAM.Infrastructure;
+using IAM.Infrastructure.Seender;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -34,13 +35,20 @@ namespace IAM.API.Extensions
             });
 
             // Database Migrations
-            /*using (var scope = services.BuildServiceProvider().CreateScope())
+            using (var scope = services.BuildServiceProvider().CreateScope())
             {
                 var servicesMigration = scope.ServiceProvider;
                 var context = servicesMigration.GetRequiredService<IAMDbContext>();
                 if (context.Database.GetPendingMigrations().Any())
                     context.Database.Migrate();
-            }*/
+            }
+
+            // Seeding data here
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<IAMDbContext>();
+                IAMDataSeeder.SeedAsync(context);
+            }
 
             return services;
         }

@@ -1,8 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Pitch.API.IntergrationHandlers;
 using Pitch.Infrastructure;
-using PitchFinder.RambitMQ.Handlers;
 
 namespace Pitch.API.Extensions
 {
