@@ -28,5 +28,11 @@ namespace Pitch.API.Controllers
         {
             return await _storeService.GetPitchsAsync(id);
         }
+
+        [HttpPost("{id:int}/pitchs")]
+        public async Task AddPitch([FromRoute] int id, [FromBody] AddPitchRequest request)
+        {
+            await _storeService.AddPitchAsync(id, request);
+        }
     }
 }
