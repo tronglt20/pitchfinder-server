@@ -11,9 +11,9 @@ namespace Pitch.Domain.Entities
         }
 
         public string Name { get; set; }
+        public string Description { get; set; }
         public PitchStatusEnum Status { get; set; }
         public int Price { get; set; }
-        public float Duration { get; set; }
         public int StoreId { get; set; }
 
         public Store Store { get; set; }

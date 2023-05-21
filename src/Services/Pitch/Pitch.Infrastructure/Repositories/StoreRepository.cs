@@ -14,5 +14,11 @@ namespace Pitch.Infrastructure.Repositories
         {
             return await GetAsync(_ => _.Id == id);
         }
+
+        public IQueryable<Domain.Entities.Pitch> GetPitchs(int id)
+        {
+            return GetQuery(_ => _.Id == id)
+                .SelectMany(_ => _.Pitchs);
+        }
     }
 }

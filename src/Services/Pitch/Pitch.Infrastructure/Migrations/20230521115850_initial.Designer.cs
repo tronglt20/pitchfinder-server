@@ -12,7 +12,7 @@ using Pitch.Infrastructure;
 namespace Pitch.Infrastructure.Migrations
 {
     [DbContext(typeof(PitchDbContext))]
-    [Migration("20230521085256_initial")]
+    [Migration("20230521115850_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,8 +60,9 @@ namespace Pitch.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<float>("Duration")
-                        .HasColumnType("real");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
