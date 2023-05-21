@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Pitch.API.Services;
 using Pitch.Infrastructure;
 
 namespace Pitch.API.Extensions
@@ -27,7 +28,7 @@ namespace Pitch.API.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            return services;
+            return services.AddScoped<StoreService>();
         }
     }
 }

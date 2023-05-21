@@ -5,5 +5,6 @@ namespace Pitch.Domain.Interfaces
 {
     public interface IStoreRepository : IBaseRepository<Store>
     {
+        Task<Store> GetAsync(int id);
     }
 }

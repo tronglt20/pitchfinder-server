@@ -9,5 +9,10 @@ namespace Pitch.Infrastructure.Repositories
         public StoreRepository(PitchDbContext dbContext) : base(dbContext)
         {
         }
+
+        public async Task<Store> GetAsync(int id)
+        {
+            return await GetAsync(_ => _.Id == id);
+        }
     }
 }
