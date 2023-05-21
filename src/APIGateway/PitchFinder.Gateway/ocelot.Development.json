@@ -18,7 +18,25 @@
       "HttpHandlerOptions": {
         "AllowAutoRedirect": true
       }
-    }
+    },
+    // Pitch APIs
+    {
+      "DownstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "pitch.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "UpstreamHttpMethod": [],
+      "RouteIsCaseSensitive": true,
+      "UseServiceDiscovery": false,
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://pitchfinder.gateway"

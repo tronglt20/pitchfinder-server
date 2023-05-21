@@ -18,6 +18,25 @@
       "HttpHandlerOptions": {
         "AllowAutoRedirect": true
       }
+    },
+    // Pitch APIs
+    {
+      "DownstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7012
+        }
+      ],
+      "UpstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "UpstreamHttpMethod": [],
+      "RouteIsCaseSensitive": true,
+      "UseServiceDiscovery": false,
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      }
     }
   ],
   "GlobalConfiguration": {
