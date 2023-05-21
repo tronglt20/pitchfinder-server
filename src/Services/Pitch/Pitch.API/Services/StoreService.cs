@@ -6,6 +6,7 @@ using Pitch.Domain.Entities;
 using Pitch.Domain.Enums;
 using Pitch.Domain.Interfaces;
 using Pitch.Infrastructure;
+using PitchFinder.S3.Interfaces;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure.DTOs;
 
@@ -17,15 +18,18 @@ namespace Pitch.API.Services
         private readonly IPitchRepository _pitchRepo;
         private readonly IUnitOfWorkBase<PitchDbContext> _unitOfWorkBase;
         private readonly IUserInfo _userInfo;
+        private readonly IS3Service _s3Service;
         public StoreService(IStoreRepository storeRepo
             , IUnitOfWorkBase<PitchDbContext> unitOfWorkBase
             , IUserInfo userInfo
-            , IPitchRepository pitchRepo)
+            , IPitchRepository pitchRepo
+            , IS3Service s3Service)
         {
             _storeRepo = storeRepo;
             _unitOfWorkBase = unitOfWorkBase;
             _userInfo = userInfo;
             _pitchRepo = pitchRepo;
+            _s3Service = s3Service;
         }
 
         public async Task<EditStoreResponse> EditStoreInfoAsync(int storeId, EditStoreRequest request)
@@ -34,6 +38,15 @@ namespace Pitch.API.Services
             store.UpdateInfo(request.Name
                 , request.Address
                 , request.PhoneNumber);
+
+            if(request.BackgroundImage != null)
+            {
+                var image = await _s3Service.UploadAsync(request.BackgroundImage);
+                foreach (var attachment in attachments)
+                {
+                    idea.AddAttachment(attachment);
+                }
+            }
 
             await _unitOfWorkBase.SaveChangesAsync();
             return new EditStoreResponse(store);
