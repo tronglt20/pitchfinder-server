@@ -12,6 +12,7 @@ namespace Pitch.API.Extensions
             services.AddDbContext<PitchDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+                options.UseLazyLoadingProxies();
             });
 
             // Database Migrations

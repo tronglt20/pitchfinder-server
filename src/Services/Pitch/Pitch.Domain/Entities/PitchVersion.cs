@@ -7,7 +7,7 @@ namespace Pitch.Domain.Entities
     {
         public PitchVersion()
         {
-            
+
         }
 
         public string Name { get; set; }
@@ -16,7 +16,7 @@ namespace Pitch.Domain.Entities
         public float Duration { get; set; }
         public int PitchId { get; set; }
 
-        public Pitch Pitch { get; set; }
+        public virtual Pitch Pitch { get; set; }
 
     }
 }

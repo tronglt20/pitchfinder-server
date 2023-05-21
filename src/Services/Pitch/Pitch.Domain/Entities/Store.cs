@@ -18,7 +18,7 @@ namespace Pitch.Domain.Entities
         public TimeSpan Close { get; set; }
         public int OwnerId { get; set; }
 
-        public User Owner { get; set; }
+        public virtual User Owner { get; set; }
         public virtual ICollection<Pitch> Pitchs { get; set; } = new HashSet<Pitch>();
 
         public void UpdateInfo(string name, string address, string phoneNumber)
