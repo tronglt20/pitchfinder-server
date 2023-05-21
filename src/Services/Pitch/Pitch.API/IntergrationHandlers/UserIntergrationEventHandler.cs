@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Pitch.Domain.Entities;
+using Pitch.Domain.Enums;
 using Pitch.Domain.Interfaces;
 using Pitch.Infrastructure;
 using PitchFinder.RambitMQ.Events;
@@ -29,7 +30,15 @@ namespace Pitch.API.IntergrationHandlers
 
             if (!@event.IsCustomer)
             {
-                var store = new Store();
+                var store = new Store
+                {
+                    Name = $"Sân - {@event.Email}",
+                    Owner = user,
+                    Status = StoreStatusEnum.Close,
+                    Open = TimeSpan.FromHours(1),
+                    Close = TimeSpan.FromHours(23),
+                };
+
                 await _storeRepo.InsertAsync(store);
             }
 
