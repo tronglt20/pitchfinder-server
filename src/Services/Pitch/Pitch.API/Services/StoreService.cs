@@ -28,7 +28,7 @@ namespace Pitch.API.Services
             _pitchRepo = pitchRepo;
         }
 
-        public async Task<StoreUpdateResponse> UpdateStoreInfoAsync(int storeId, StoreUpdateRequest request)
+        public async Task<EditStoreResponse> EditStoreInfoAsync(int storeId, EditStoreRequest request)
         {
             var store = await GetStoreAsync(storeId);
             store.UpdateInfo(request.Name
@@ -36,14 +36,7 @@ namespace Pitch.API.Services
                 , request.PhoneNumber);
 
             await _unitOfWorkBase.SaveChangesAsync();
-
-            return new StoreUpdateResponse
-            {
-                Id = store.Id,
-                Name = store.Name,
-                Address = store.Address,
-                PhoneNumber = store.PhoneNumber,
-            };
+            return new EditStoreResponse(store);
         }
 
         public async Task<List<PitchItemResponse>> GetPitchsAsync(int storeId)
@@ -80,6 +73,17 @@ namespace Pitch.API.Services
             await _unitOfWorkBase.SaveChangesAsync();
         }
 
+        public async Task EditPitchInfoAsync(int pitchId, EditPitchRequest request)
+        {
+            var pitch = await GetPitchAsync(pitchId);
+
+            pitch.UpdateInfo(request.Name
+                , request.Description
+                , request.Price
+                , request.Status);
+            await _unitOfWorkBase.SaveChangesAsync();
+        }
+
         private async Task<Store> GetStoreAsync(int storeId)
         {
             var store = await _storeRepo.GetAsync(storeId);
@@ -87,6 +91,15 @@ namespace Pitch.API.Services
                 throw new Exception("Không tìm thấy store");
 
             return store;
+        }
+
+        private async Task<Domain.Entities.Pitch> GetPitchAsync(int pitchId)
+        {
+            var pitch = await _pitchRepo.GetAsync(_ => _.Id == pitchId);
+            if (pitch == null)
+                throw new Exception("Không tìm thấy pitch");
+
+            return pitch;
         }
     }
 }

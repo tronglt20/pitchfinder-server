@@ -18,9 +18,9 @@ namespace Pitch.API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<StoreUpdateResponse> UpdateStoreInfo([FromRoute] int id, [FromBody] StoreUpdateRequest request)
+        public async Task<EditStoreResponse> EditStoreInfo([FromRoute] int id, [FromBody] EditStoreRequest request)
         {
-            return await _storeService.UpdateStoreInfoAsync(id, request);
+            return await _storeService.EditStoreInfoAsync(id, request);
         }
 
         [HttpGet("{id:int}/pitchs")]
@@ -33,6 +33,12 @@ namespace Pitch.API.Controllers
         public async Task AddPitch([FromRoute] int id, [FromBody] AddPitchRequest request)
         {
             await _storeService.AddPitchAsync(id, request);
+        }
+
+        [HttpPut("pitchs/{id:int}")]
+        public async Task EditPitchInfo([FromRoute] int id, [FromBody] EditPitchRequest request)
+        {
+            await _storeService.EditPitchInfo(id, request);
         }
     }
 }
