@@ -22,6 +22,9 @@ namespace Pitch.Domain.Entities
 
         public virtual ICollection<Pitch> Pitchs { get; set; } = new HashSet<Pitch>();
         public virtual ICollection<StoreAttachment> StoreAttachments { get; set; } = new HashSet<StoreAttachment>();
+        public virtual ICollection<StoreRating> StoreRatings { get; set; } = new HashSet<StoreRating>();
+        public virtual ICollection<StoreComment> StoreComments { get; set; } = new HashSet<StoreComment>();
+
 
         public void UpdateInfo(string name, string address, string phoneNumber)
         {

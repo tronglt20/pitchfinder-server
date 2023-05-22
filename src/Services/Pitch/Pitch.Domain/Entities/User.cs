@@ -19,5 +19,8 @@ namespace Pitch.Domain.Entities
         }
 
         public virtual ICollection<Store> Stores { get; set; } = new HashSet<Store>();
+        public virtual ICollection<StoreRating> StoreRatings { get; set; } = new HashSet<StoreRating>();
+        public virtual ICollection<StoreComment> StoreComments { get; set; } = new HashSet<StoreComment>();
+
     }
 }

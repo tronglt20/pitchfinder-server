@@ -113,6 +113,9 @@ namespace Pitch.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<float>("Duration")
                         .HasColumnType("real");
 
@@ -194,6 +197,64 @@ namespace Pitch.Infrastructure.Migrations
                     b.HasIndex("StoreId");
 
                     b.ToTable("StoreAttachment", (string)null);
+                });
+
+            modelBuilder.Entity("Pitch.Domain.Entities.StoreComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Content")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StoreComment", (string)null);
+                });
+
+            modelBuilder.Entity("Pitch.Domain.Entities.StoreRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StoreRating", (string)null);
                 });
 
             modelBuilder.Entity("Pitch.Domain.Entities.User", b =>
@@ -312,6 +373,40 @@ namespace Pitch.Infrastructure.Migrations
                     b.Navigation("Store");
                 });
 
+            modelBuilder.Entity("Pitch.Domain.Entities.StoreComment", b =>
+                {
+                    b.HasOne("Pitch.Domain.Entities.Store", "Store")
+                        .WithMany("StoreComments")
+                        .HasForeignKey("StoreId")
+                        .IsRequired();
+
+                    b.HasOne("Pitch.Domain.Entities.User", "User")
+                        .WithMany("StoreComments")
+                        .HasForeignKey("UserId")
+                        .IsRequired();
+
+                    b.Navigation("Store");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Pitch.Domain.Entities.StoreRating", b =>
+                {
+                    b.HasOne("Pitch.Domain.Entities.Store", "Store")
+                        .WithMany("StoreRatings")
+                        .HasForeignKey("StoreId")
+                        .IsRequired();
+
+                    b.HasOne("Pitch.Domain.Entities.User", "User")
+                        .WithMany("StoreRatings")
+                        .HasForeignKey("UserId")
+                        .IsRequired();
+
+                    b.Navigation("Store");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Pitch.Domain.Entities.Attachment", b =>
                 {
                     b.Navigation("PitchAttachments");
@@ -331,10 +426,18 @@ namespace Pitch.Infrastructure.Migrations
                     b.Navigation("Pitchs");
 
                     b.Navigation("StoreAttachments");
+
+                    b.Navigation("StoreComments");
+
+                    b.Navigation("StoreRatings");
                 });
 
             modelBuilder.Entity("Pitch.Domain.Entities.User", b =>
                 {
+                    b.Navigation("StoreComments");
+
+                    b.Navigation("StoreRatings");
+
                     b.Navigation("Stores");
                 });
 #pragma warning restore 612, 618

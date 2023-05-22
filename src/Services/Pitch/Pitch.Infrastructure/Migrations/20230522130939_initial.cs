@@ -121,6 +121,58 @@ namespace Pitch.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StoreComment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<int>(type: "int", nullable: false),
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoreComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StoreComment_Store_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Store",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StoreComment_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StoreRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoreRating", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StoreRating_Store_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Store",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StoreRating_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PitchAttachment",
                 columns: table => new
                 {
@@ -154,7 +206,8 @@ namespace Pitch.Infrastructure.Migrations
                     Status = table.Column<byte>(type: "tinyint", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<float>(type: "real", nullable: false),
-                    PitchId = table.Column<int>(type: "int", nullable: false)
+                    PitchId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,6 +253,26 @@ namespace Pitch.Infrastructure.Migrations
                 name: "IX_StoreAttachment_StoreId",
                 table: "StoreAttachment",
                 column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreComment_StoreId",
+                table: "StoreComment",
+                column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreComment_UserId",
+                table: "StoreComment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreRating_StoreId",
+                table: "StoreRating",
+                column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreRating_UserId",
+                table: "StoreRating",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -212,6 +285,12 @@ namespace Pitch.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "StoreAttachment");
+
+            migrationBuilder.DropTable(
+                name: "StoreComment");
+
+            migrationBuilder.DropTable(
+                name: "StoreRating");
 
             migrationBuilder.DropTable(
                 name: "Pitch");

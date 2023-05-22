@@ -15,8 +15,8 @@ namespace Pitch.Domain.Entities
         public int Price { get; set; }
         public float Duration { get; set; }
         public int PitchId { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public virtual Pitch Pitch { get; set; }
-
     }
 }

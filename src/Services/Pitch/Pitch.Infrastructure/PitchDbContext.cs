@@ -17,6 +17,9 @@ namespace Pitch.Infrastructure
         public virtual DbSet<PitchVersion> PitchVersions { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<PitchAttachment> PitchAttachment { get; set; }
+        public virtual DbSet<StoreRating> StoreRatings { get; set; }
+        public virtual DbSet<StoreComment> StoreComments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
