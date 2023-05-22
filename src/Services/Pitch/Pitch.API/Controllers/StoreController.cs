@@ -21,25 +21,25 @@ namespace Pitch.API.Controllers
         [HttpGet()]
         public async Task<StoreDetailResponse> GetStore()
         {
-            return await _storeService.GetStoreAsync();
+            return await _storeService.GetStoreDetailAsync();
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<EditStoreResponse> EditStoreInfo([FromRoute] int id, [FromForm] EditStoreRequest request)
+        [HttpPut()]
+        public async Task<EditStoreResponse> EditStoreInfo([FromForm] EditStoreRequest request)
         {
-            return await _storeService.EditStoreInfoAsync(id, request);
+            return await _storeService.EditStoreInfoAsync(request);
         }
 
-        [HttpGet("{id:int}/pitchs")]
-        public async Task<List<PitchItemResponse>> GetPitchs([FromRoute] int id)
+        [HttpGet("pitchs")]
+        public async Task<List<PitchItemResponse>> GetPitchs()
         {
-            return await _storeService.GetPitchsAsync(id);
+            return await _storeService.GetPitchsAsync();
         }
 
-        [HttpPost("{id:int}/pitchs")]
-        public async Task AddPitch([FromRoute] int id, [FromBody] AddPitchRequest request)
+        [HttpPost("pitchs")]
+        public async Task AddPitch([FromBody] AddPitchRequest request)
         {
-            await _storeService.AddPitchAsync(id, request);
+            await _storeService.AddPitchAsync(request);
         }
 
         [HttpPut("pitchs/{id:int}")]

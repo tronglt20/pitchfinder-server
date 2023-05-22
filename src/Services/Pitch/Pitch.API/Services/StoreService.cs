@@ -32,7 +32,7 @@ namespace Pitch.API.Services
             _userInfo = userInfo;
         }
 
-        public async Task<StoreDetailResponse> GetStoreAsync()
+        public async Task<StoreDetailResponse> GetStoreDetailAsync()
         {
             var store = await _storeRepo.GetAsync(_ => _.OwnerId == _userInfo.Id);
             if (store == null)
@@ -48,9 +48,9 @@ namespace Pitch.API.Services
             return response;
         }
 
-        public async Task<EditStoreResponse> EditStoreInfoAsync(int storeId, EditStoreRequest request)
+        public async Task<EditStoreResponse> EditStoreInfoAsync(EditStoreRequest request)
         {
-            var store = await GetStoreAsync(storeId);
+            var store = await GetStoreAsync();
             store.UpdateInfo(request.Name
                 , request.Address
                 , request.PhoneNumber);
@@ -65,9 +65,9 @@ namespace Pitch.API.Services
             return new EditStoreResponse(store);
         }
 
-        public async Task<List<PitchItemResponse>> GetPitchsAsync(int storeId)
+        public async Task<List<PitchItemResponse>> GetPitchsAsync()
         {
-            var store = await GetStoreAsync(storeId);
+            var store = await GetStoreAsync();
             var pitchs = store.Pitchs?.ToList();
             return pitchs?.Select(_ => new PitchItemResponse
             {
@@ -79,9 +79,9 @@ namespace Pitch.API.Services
             }).ToList();
         }
 
-        public async Task AddPitchAsync(int storeId, AddPitchRequest request)
+        public async Task AddPitchAsync(AddPitchRequest request)
         {
-            var store = await GetStoreAsync(storeId);
+            var store = await GetStoreAsync();
             var existed = await _pitchRepo.AnyAsync(_ => _.Name == request.Name);
             if (existed)
                 throw new Exception($"Sân {request.Name} đã tồn tại");
@@ -110,9 +110,9 @@ namespace Pitch.API.Services
             await _unitOfWorkBase.SaveChangesAsync();
         }
 
-        private async Task<Store> GetStoreAsync(int storeId)
+        private async Task<Store> GetStoreAsync()
         {
-            var store = await _storeRepo.GetAsync(storeId);
+            var store = await _storeRepo.GetAsync(_ => _.OwnerId == _userInfo.Id);
             if (store == null)
                 throw new Exception("Không tìm thấy store");
 
