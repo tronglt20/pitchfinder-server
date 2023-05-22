@@ -17,17 +17,22 @@ namespace Pitch.Domain.Entities
         public TimeSpan Open { get; set; }
         public TimeSpan Close { get; set; }
         public int OwnerId { get; set; }
-        public int BackgroundId { get; set; }
 
         public virtual User Owner { get; set; }
-        public virtual Attachment Backgroud { get; set; }
+
         public virtual ICollection<Pitch> Pitchs { get; set; } = new HashSet<Pitch>();
+        public virtual ICollection<StoreAttachment> StoreAttachments { get; set; } = new HashSet<StoreAttachment>();
 
         public void UpdateInfo(string name, string address, string phoneNumber)
         {
             Name = name;
             Address = address;
             PhoneNumber = phoneNumber;
+        }
+
+        public void AddAttachment(Attachment image)
+        {
+            this.StoreAttachments.Add(new StoreAttachment(this, image));
         }
     }
 }

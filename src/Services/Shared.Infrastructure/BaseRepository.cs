@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Interfaces;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Shared.Infrastructure

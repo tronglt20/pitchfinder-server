@@ -97,6 +97,30 @@ namespace Pitch.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StoreAttachment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    AttachmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoreAttachment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StoreAttachment_Attachment_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachment",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StoreAttachment_Store_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Store",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PitchAttachment",
                 columns: table => new
                 {
@@ -166,6 +190,16 @@ namespace Pitch.Infrastructure.Migrations
                 name: "IX_Store_OwnerId",
                 table: "Store",
                 column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreAttachment_AttachmentId",
+                table: "StoreAttachment",
+                column: "AttachmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreAttachment_StoreId",
+                table: "StoreAttachment",
+                column: "StoreId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -177,10 +211,13 @@ namespace Pitch.Infrastructure.Migrations
                 name: "PitchVersion");
 
             migrationBuilder.DropTable(
-                name: "Attachment");
+                name: "StoreAttachment");
 
             migrationBuilder.DropTable(
                 name: "Pitch");
+
+            migrationBuilder.DropTable(
+                name: "Attachment");
 
             migrationBuilder.DropTable(
                 name: "Store");

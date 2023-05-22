@@ -1,8 +1,7 @@
 using Pitch.API.Extensions;
-using Shared.API.Extensions;
-using PitchFinder.RambitMQ.Extensions;
-using PitchFinder.RambitMQ.Handlers;
 using Pitch.Infrastructure;
+using PitchFinder.RambitMQ.Extensions;
+using Shared.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = ConfigurationExtentions.Build();

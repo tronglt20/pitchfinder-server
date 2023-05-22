@@ -6,7 +6,7 @@ using Pitch.Domain.Entities;
 using Pitch.Domain.Enums;
 using Pitch.Domain.Interfaces;
 using Pitch.Infrastructure;
-using PitchFinder.S3.Interfaces;
+using Shared.API.Services;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure.DTOs;
 
@@ -17,19 +17,35 @@ namespace Pitch.API.Services
         private readonly IStoreRepository _storeRepo;
         private readonly IPitchRepository _pitchRepo;
         private readonly IUnitOfWorkBase<PitchDbContext> _unitOfWorkBase;
+        private readonly AttachmentService<Attachment, PitchDbContext> _attachmentService;
         private readonly IUserInfo _userInfo;
-        private readonly IS3Service _s3Service;
+
         public StoreService(IStoreRepository storeRepo
             , IUnitOfWorkBase<PitchDbContext> unitOfWorkBase
-            , IUserInfo userInfo
             , IPitchRepository pitchRepo
-            , IS3Service s3Service)
+            , AttachmentService<Attachment, PitchDbContext> attachmentService, IUserInfo userInfo)
         {
             _storeRepo = storeRepo;
             _unitOfWorkBase = unitOfWorkBase;
-            _userInfo = userInfo;
             _pitchRepo = pitchRepo;
-            _s3Service = s3Service;
+            _attachmentService = attachmentService;
+            _userInfo = userInfo;
+        }
+
+        public async Task<StoreDetailResponse> GetStoreAsync()
+        {
+            var store = await _storeRepo.GetAsync(_ => _.OwnerId == _userInfo.Id);
+            if (store == null)
+                throw new Exception("Không tìm thấy store");
+
+            var response = new StoreDetailResponse(store);
+            if (store.StoreAttachments.Any())
+            {
+                var backgroundAttachment = store.StoreAttachments.FirstOrDefault();
+                response.BackgroundUrl = await _attachmentService.GetPresignedUrl(backgroundAttachment.Attachment.KeyName);
+            }
+
+            return response;
         }
 
         public async Task<EditStoreResponse> EditStoreInfoAsync(int storeId, EditStoreRequest request)
@@ -39,13 +55,10 @@ namespace Pitch.API.Services
                 , request.Address
                 , request.PhoneNumber);
 
-            if(request.BackgroundImage != null)
+            if (request.BackgroundImage != null)
             {
-                var image = await _s3Service.UploadAsync(request.BackgroundImage);
-                foreach (var attachment in attachments)
-                {
-                    idea.AddAttachment(attachment);
-                }
+                var image = await _attachmentService.UploadAsync(request.BackgroundImage);
+                store.AddAttachment(image);
             }
 
             await _unitOfWorkBase.SaveChangesAsync();
@@ -77,7 +90,7 @@ namespace Pitch.API.Services
             {
                 Store = store,
                 Name = request.Name,
-                Description= request.Description,
+                Description = request.Description,
                 Price = request.Price,
                 Status = PitchStatusEnum.Open
             };

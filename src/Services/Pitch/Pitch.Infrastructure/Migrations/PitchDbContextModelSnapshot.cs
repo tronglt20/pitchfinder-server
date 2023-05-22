@@ -173,6 +173,29 @@ namespace Pitch.Infrastructure.Migrations
                     b.ToTable("Store", (string)null);
                 });
 
+            modelBuilder.Entity("Pitch.Domain.Entities.StoreAttachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AttachmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("StoreAttachment", (string)null);
+                });
+
             modelBuilder.Entity("Pitch.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -272,9 +295,28 @@ namespace Pitch.Infrastructure.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("Pitch.Domain.Entities.StoreAttachment", b =>
+                {
+                    b.HasOne("Pitch.Domain.Entities.Attachment", "Attachment")
+                        .WithMany("StoreAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .IsRequired();
+
+                    b.HasOne("Pitch.Domain.Entities.Store", "Store")
+                        .WithMany("StoreAttachments")
+                        .HasForeignKey("StoreId")
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("Pitch.Domain.Entities.Attachment", b =>
                 {
                     b.Navigation("PitchAttachments");
+
+                    b.Navigation("StoreAttachments");
                 });
 
             modelBuilder.Entity("Pitch.Domain.Entities.Pitch", b =>
@@ -287,6 +329,8 @@ namespace Pitch.Infrastructure.Migrations
             modelBuilder.Entity("Pitch.Domain.Entities.Store", b =>
                 {
                     b.Navigation("Pitchs");
+
+                    b.Navigation("StoreAttachments");
                 });
 
             modelBuilder.Entity("Pitch.Domain.Entities.User", b =>

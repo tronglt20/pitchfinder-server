@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using PitchFinder.S3;
 using PitchFinder.S3.Dtos;
 using PitchFinder.S3.Interfaces;
+using Shared.API.Services;
+using Shared.Domain.Interfaces;
+using Shared.Infrastructure;
+
 
 namespace Shared.API.Extensions
 {
@@ -25,11 +29,13 @@ namespace Shared.API.Extensions
                 Credentials = new BasicAWSCredentials(settings.AccessKey, settings.SecretKey),
                 Region = RegionEndpoint.GetBySystemName(settings.Region)
             };
-
+                           
             return services
                            .AddDefaultAWSOptions(customOptions)
                            .AddAWSService<IAmazonS3>()
-                           .AddSingleton<IS3Service, S3Service>();
+                           .AddScoped<IS3Service, S3Service>()
+                           .AddScoped(typeof(IAttachmentRepository<,>), typeof(AttachmentRepository<,>))
+                           .AddScoped(typeof(AttachmentService<,>));
         }
     }
 }

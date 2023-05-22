@@ -17,6 +17,12 @@ namespace Pitch.API.Controllers
             _storeService = storeService;
         }
 
+        [HttpGet()]
+        public async Task<StoreDetailResponse> GetStore()
+        {
+            return await _storeService.GetStoreAsync();
+        }
+
         [HttpPut("{id:int}")]
         public async Task<EditStoreResponse> EditStoreInfo([FromRoute] int id, [FromForm] EditStoreRequest request)
         {

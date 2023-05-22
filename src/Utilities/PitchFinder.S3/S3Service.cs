@@ -57,7 +57,7 @@ namespace PitchFinder.S3
             {
                 BucketName = _s3Settings.BucketName,
                 Key = keyName,
-                Expires = DateTime.UtcNow.AddMinutes(1)
+                Expires = DateTime.UtcNow.AddHours(1)
             };
 
             return _client.GetPreSignedURL(request);

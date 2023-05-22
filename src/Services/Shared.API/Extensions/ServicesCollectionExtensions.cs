@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure;
 using Shared.Infrastructure.Dtos;
-using System.Reflection;
 
 namespace Shared.API.Extensions
 {
@@ -52,9 +51,10 @@ namespace Shared.API.Extensions
 
         public static void AddUserInfo(this IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddScoped(serviceProvider =>
             {
-                var httpContext = serviceProvider.GetService<IHttpContextAccessor>()?.HttpContext;
+                var httpContext = serviceProvider.GetService<IHttpContextAccessor>().HttpContext;
                 return httpContext?.CurrentUser();
             });
         }
