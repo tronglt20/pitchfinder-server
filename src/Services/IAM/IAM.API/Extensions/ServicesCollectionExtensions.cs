@@ -32,6 +32,7 @@ namespace IAM.API.Extensions
             services.AddDbContext<IAMDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+                options.UseLazyLoadingProxies();
             });
 
             // Database Migrations
