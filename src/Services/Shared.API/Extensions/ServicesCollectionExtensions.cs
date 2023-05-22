@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Shared.API.Identity;
+using Shared.Domain.Enums;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure;
 using Shared.Infrastructure.Dtos;
@@ -39,10 +41,16 @@ namespace Shared.API.Extensions
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiScope", policy =>
+                options.AddPolicy(PolicyNames.MAIN_API, policy =>
                 {
                     policy.RequireAuthenticatedUser();
                     policy.RequireClaim("scope", "PitchFinderAPI");
+                });
+
+                options.AddPolicy(PolicyNames.OWNER_API, policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("RoleId", ((int)RoleEnum.Owner).ToString());
                 });
             });
 

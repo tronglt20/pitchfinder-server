@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Pitch.API.Services;
 using Pitch.API.ViewModels.Store.Requests;
 using Pitch.API.ViewModels.Store.Responses;
+using Shared.API.Identity;
 
 namespace Pitch.API.Controllers
 {
     [Route("api/pitchfinder/store")]
-    [Authorize]
+    [Authorize(PolicyNames.OWNER_API)]
     public class StoreController : ControllerBase
     {
         private readonly StoreService _storeService;
