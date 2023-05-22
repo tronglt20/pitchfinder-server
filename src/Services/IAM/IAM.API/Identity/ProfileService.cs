@@ -19,12 +19,13 @@ namespace IAM.API.Identity
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var user = await _userManager.GetUserAsync(context.Subject);
-
+            var roleId = user.UserRoles.Select(_ => _.RoleId).FirstOrDefault();
             var claims = new List<Claim>
             {
                 new Claim(AppClaimType.UserId, user.Id.ToString()),
                 new Claim(AppClaimType.UserName, user.UserName),
                 new Claim(AppClaimType.UserEmail, user.Email),
+                new Claim(AppClaimType.RoleId, roleId.ToString()),
             };
 
             context.IssuedClaims.AddRange(claims);
