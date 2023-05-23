@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  redis.db: 
+    container_name: redis.db
+    restart: always
+    ports:
+      - "6379:6379"
+
   iam.db: 
     container_name: iam.db
     environment:

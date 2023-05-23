@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  redis.db:
+    image: redis:alpine
+
   iam.db:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
@@ -30,4 +33,6 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+
+
 

@@ -57,6 +57,16 @@ namespace Shared.API.Extensions
             return services;
         }
 
+        public static IServiceCollection AddRedisCache(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration["RedisSettings:ConnectionString"];
+            });
+
+            return services;
+        }
+
         public static void AddUserInfo(this IServiceCollection services)
         {
             services.AddHttpContextAccessor();
