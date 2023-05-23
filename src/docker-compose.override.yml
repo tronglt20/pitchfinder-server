@@ -54,6 +54,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - iam.api
+      - pitch.api
     ports:
       - "8090:80"
 

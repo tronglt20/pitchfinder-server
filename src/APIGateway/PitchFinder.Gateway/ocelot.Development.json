@@ -36,7 +36,8 @@
       "DangerousAcceptAnyServerCertificateValidator": true,
       "HttpHandlerOptions": {
         "AllowAutoRedirect": true
-      },
+      }
+    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://pitchfinder.gateway"
