@@ -23,5 +23,11 @@ namespace Pitch.API.Controllers
         {
             return await _storeOrderingService.GetStoresAsync(request);
         }
+
+        [HttpGet("{id}")]
+        public async Task<StoreOrderingDetailResponse> GetStore([FromRoute] int id)
+        {
+            return await _storeOrderingService.GetStoreAsync(id);
+        }
     }
 }

@@ -59,10 +59,13 @@ namespace Shared.API.Extensions
 
         public static IServiceCollection AddRedisCache(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration["RedisSettings:ConnectionString"];
             });
+
+            services.AddScoped<IDistributedCacheRepository, DistributedCacheRepository>();
 
             return services;
         }

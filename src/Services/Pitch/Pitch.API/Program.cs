@@ -12,6 +12,7 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 
 services.AddPitchDatabaseContext(configuration);
+services.AddRedisCache(configuration);
 
 // Config User claims info
 services.AddUserInfo();

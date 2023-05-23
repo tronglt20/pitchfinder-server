@@ -76,6 +76,7 @@ namespace Pitch.API.Services
                 Open = store.Open,
                 Close = store.Close,
                 Status = _.Status,
+                Type = _.Type,
             }).ToList();
         }
 

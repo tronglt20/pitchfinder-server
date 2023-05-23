@@ -34,7 +34,7 @@ namespace Pitch.API.IntergrationHandlers
                 {
                     Name = $"Sân - {@event.Email}",
                     Owner = user,
-                    Status = StoreStatusEnum.Close,
+                    Status = StoreStatusEnum.Open,
                     Open = TimeSpan.FromHours(1),
                     Close = TimeSpan.FromHours(23),
                 };
