@@ -12,7 +12,7 @@ using Pitch.Infrastructure;
 namespace Pitch.Infrastructure.Migrations
 {
     [DbContext(typeof(PitchDbContext))]
-    [Migration("20230522130939_initial")]
+    [Migration("20230523024544_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace Pitch.Infrastructure.Migrations
 
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 

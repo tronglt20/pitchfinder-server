@@ -30,19 +30,8 @@ namespace Pitch.API.Services
         public async Task<List<StoreOrderingItemResponse>> GetStoresAsync(GetStoreOrderingRequest request)
         {
             var stores = await _storeRepo.GetQuery(request.Filter())
-                                  .Select(_ => new StoreOrderingItemResponse
-                                  {
-                                      StoreId = _.Id,
-                                      Name = _.Name,
-                                      Address = _.Address,
-                                      PhoneNumber = _.PhoneNumber,
-                                      Rating = (int)_.StoreRatings.Average(_ => _.Rating),
-                                      AttachmentKeyname = _.StoreAttachments.Select(_ => _.Attachment.KeyName).FirstOrDefault(),
-                                      Price = _.Pitchs.Where(p => p.Status == PitchStatusEnum.Open)
-                                            .OrderBy(p => p.Price)
-                                            .Select(p => p.Price)
-                                            .FirstOrDefault(),
-                                  }).ToListAsync();
+                                  .Select(request.GetSelection())
+                                  .ToListAsync();
 
             foreach (var store in stores)
             {
