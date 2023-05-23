@@ -1,10 +1,8 @@
 ﻿#nullable disable
-
 using Microsoft.EntityFrameworkCore;
 using Pitch.API.ViewModels.Store.Requests;
 using Pitch.API.ViewModels.Store.Responses;
 using Pitch.Domain.Entities;
-using Pitch.Domain.Enums;
 using Pitch.Domain.Interfaces;
 using Pitch.Infrastructure;
 using Shared.API.Services;

@@ -6,7 +6,6 @@ namespace Pitch.API.ViewModels.Store.Requests
 {
     public class GetStoreOrderingRequest
     {
-
         public PitchTypeEnum Type { get; set; }
         public TimeSpan Open { get; set; }
         public TimeSpan Close { get; set; }
