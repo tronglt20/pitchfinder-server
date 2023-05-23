@@ -29,7 +29,8 @@ namespace Pitch.API.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            return services.AddScoped<StoreService>();
+            return services.AddScoped<StoreService>()
+                           .AddScoped<StoreOrderingService>();
         }
     }
 }

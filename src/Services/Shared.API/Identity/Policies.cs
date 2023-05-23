@@ -2,7 +2,7 @@
 {
     public struct PolicyNames
     {
-        public const string MAIN_API = "ApiScope";
         public const string OWNER_API = "OwnerPermission";
+        public const string Customer_API = "CustomerPermission";
     }
 }

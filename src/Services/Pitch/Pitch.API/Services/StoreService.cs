@@ -92,7 +92,8 @@ namespace Pitch.API.Services
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                Status = PitchStatusEnum.Open
+                Type = request.Type,
+                Status = PitchStatusEnum.Open,
             };
 
             await _pitchRepo.InsertAsync(newPitch);
@@ -106,7 +107,9 @@ namespace Pitch.API.Services
             pitch.UpdateInfo(request.Name
                 , request.Description
                 , request.Price
+                , request.Type
                 , request.Status);
+
             await _unitOfWorkBase.SaveChangesAsync();
         }
 

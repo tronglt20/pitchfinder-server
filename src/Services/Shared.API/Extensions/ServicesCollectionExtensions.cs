@@ -41,16 +41,16 @@ namespace Shared.API.Extensions
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(PolicyNames.MAIN_API, policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "PitchFinderAPI");
-                });
-
                 options.AddPolicy(PolicyNames.OWNER_API, policy =>
                 {
                     policy.RequireAuthenticatedUser();
                     policy.RequireClaim("RoleId", ((int)RoleEnum.Owner).ToString());
+                });
+
+                options.AddPolicy(PolicyNames.Customer_API, policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("RoleId", ((int)RoleEnum.Customer).ToString());
                 });
             });
 

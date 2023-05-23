@@ -13,6 +13,7 @@ namespace Pitch.Domain.Entities
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public PitchTypeEnum Type { get; set; }
         public PitchStatusEnum Status { get; set; }
         public int Price { get; set; }
         public int StoreId { get; set; }
@@ -21,11 +22,12 @@ namespace Pitch.Domain.Entities
         public virtual ICollection<PitchVersion> PitchVersions { get; set; } = new HashSet<PitchVersion>();
         public virtual ICollection<PitchAttachment> PitchAttachments { get; set; } = new HashSet<PitchAttachment>();
 
-        public void UpdateInfo(string name, string description, int price, PitchStatusEnum status)
+        public void UpdateInfo(string name, string description, int price, PitchTypeEnum type, PitchStatusEnum status)
         {
             Name = name;
             Description = description;
             Price = price;
+            Type = type;
             Status = status;
         }
     }
