@@ -8,6 +8,9 @@ services:
   pitch.db:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
+  order.db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
   iam.api:
     image: ${DOCKER_REGISTRY-}iamapi
     build:

@@ -4,7 +4,6 @@ using IAM.Domain.Entities;
 using IAM.Infrastructure;
 using IAM.Infrastructure.Seender;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IAM.API.Extensions
@@ -66,7 +65,7 @@ namespace IAM.API.Extensions
                     .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
                     .AddInMemoryApiScopes(configuration.GetSection("IdentityServer:ApiScopes"))
                     .AddInMemoryIdentityResources(Config.GetIdentityResources())
-				    .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
+                    .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
                     .AddProfileService<ProfileService>()
                     .AddInMemoryPersistedGrants()
                     .AddDeveloperSigningCredential();
