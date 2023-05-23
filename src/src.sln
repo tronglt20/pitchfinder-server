@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Domain", "Services\IAM\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Infrastructure", "Services\IAM\IAM.Infrastructure\IAM.Infrastructure.csproj", "{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8250A8D2-53AD-4416-BD3E-893C364C474F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIGateway", "APIGateway", "{4E51C186-FCBD-4586-828E-023C12B78A23}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitchFinder.Gateway", "APIGateway\PitchFinder.Gateway\PitchFinder.Gateway.csproj", "{4C6D9DF1-3840-450A-BA46-E360634B0CE9}"
@@ -43,11 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.API", "Services\Shar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{A1E4F830-AABB-4970-9157-F4749E7230F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.API", "Services\Order\Order.API\Order.API.csproj", "{5EC07C1E-5AC9-4A99-836F-179E4A1A813A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.API", "Services\Order\Order.API\Order.API.csproj", "{5EC07C1E-5AC9-4A99-836F-179E4A1A813A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Domain", "Services\Order\Order.Domain\Order.Domain.csproj", "{925FA2C4-6A60-44C7-A079-CCF2F403C25D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Domain", "Services\Order\Order.Domain\Order.Domain.csproj", "{925FA2C4-6A60-44C7-A079-CCF2F403C25D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Infrastructure", "Services\Order\Order.Infrastructure\Order.Infrastructure.csproj", "{ACCCED97-08F2-4A5F-B1A1-1BF1A580ABE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Infrastructure", "Services\Order\Order.Infrastructure\Order.Infrastructure.csproj", "{ACCCED97-08F2-4A5F-B1A1-1BF1A580ABE4}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E8B2B1C6-A5B8-449F-A067-87C40E02E3D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,10 +75,6 @@ Global
 		{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B15FC2A3-1A03-4FE9-BC6A-D9D0F23C0402}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8250A8D2-53AD-4416-BD3E-893C364C474F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C6D9DF1-3840-450A-BA46-E360634B0CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -119,6 +115,10 @@ Global
 		{ACCCED97-08F2-4A5F-B1A1-1BF1A580ABE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACCCED97-08F2-4A5F-B1A1-1BF1A580ABE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACCCED97-08F2-4A5F-B1A1-1BF1A580ABE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8B2B1C6-A5B8-449F-A067-87C40E02E3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B2B1C6-A5B8-449F-A067-87C40E02E3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B2B1C6-A5B8-449F-A067-87C40E02E3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B2B1C6-A5B8-449F-A067-87C40E02E3D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
