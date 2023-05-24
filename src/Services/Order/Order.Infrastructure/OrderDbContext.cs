@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Order.Domain.Entities;
 using System.Reflection;
 
 namespace Order.Infrastructure
@@ -8,6 +9,9 @@ namespace Order.Infrastructure
         public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
         {
         }
+
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Domain.Entities.Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

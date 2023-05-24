@@ -6,7 +6,18 @@ namespace Order.Domain.Entities
     {
         public User()
         {
-
         }
+
+        public User(int id, string email)
+        {
+            Id = id;
+            UserName = email;
+            NormalizedUserName = email;
+            Email = email;
+            NormalizedEmail = email;
+        }
+
+        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+
     }
 }
