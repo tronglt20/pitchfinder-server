@@ -71,8 +71,8 @@ namespace Pitch.API.Services
                                             .FirstOrDefault(),
                             Date = filteringRequest.Date,
                             PitchType = filteringRequest.PitchType,
-                            Open = filteringRequest.Open,
-                            Close = filteringRequest.Close,
+                            Start = filteringRequest.Start,
+                            End = filteringRequest.End,
                         }).FirstOrDefaultAsync();
 
             if (!string.IsNullOrEmpty(store.AttachmentKeyname))

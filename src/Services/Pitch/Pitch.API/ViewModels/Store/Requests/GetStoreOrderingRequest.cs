@@ -11,8 +11,8 @@ namespace Pitch.API.ViewModels.Store.Requests
         {
             return _ => _.Status == StoreStatusEnum.Open
                         && _.Pitchs.Any(p => p.Type == (PitchTypeEnum)PitchType && p.Status == PitchStatusEnum.Open)
-                        && _.Open <= Open
-                        && _.Close >= Close;
+                        && _.Open <= Start
+                        && _.Close >= End;
         }
 
         public Expression<Func<Domain.Entities.Store, StoreOrderingItemResponse>> GetSelection()
@@ -38,8 +38,8 @@ namespace Pitch.API.ViewModels.Store.Requests
             {
                 Date = this.Date,
                 PitchType = this.PitchType,
-                Open = this.Open,
-                Close = this.Close,
+                Start = this.Start,
+                End = this.End,
             };
         }
     }

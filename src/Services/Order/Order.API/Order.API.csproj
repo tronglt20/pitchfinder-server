@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\pitch.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,9 +22,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj" />
+    <ProjectReference Include="..\..\Pitch\Pitch.Grpc\Pitch.Grpc.csproj" />
     <ProjectReference Include="..\..\Shared.API\Shared.API.csproj" />
     <ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
     <ProjectReference Include="..\Order.Infrastructure\Order.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\pitch.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

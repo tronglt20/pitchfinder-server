@@ -36,6 +36,9 @@ namespace Order.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<TimeSpan>("End")
                         .HasColumnType("time");
 
@@ -43,6 +46,9 @@ namespace Order.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PitchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PitchType")
                         .HasColumnType("int");
 
                     b.Property<int>("Price")

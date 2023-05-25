@@ -12,7 +12,7 @@ using Order.Infrastructure;
 namespace Order.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20230524082247_initial")]
+    [Migration("20230525140621_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace Order.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<TimeSpan>("End")
                         .HasColumnType("time");
 
@@ -45,6 +48,9 @@ namespace Order.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PitchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PitchType")
                         .HasColumnType("int");
 
                     b.Property<int>("Price")
