@@ -12,33 +12,33 @@ namespace Pitch.Grpc.Services
     {
         private readonly IPitchRepository _pitchRepo;
         private readonly IDistributedCacheRepository _distributedCacheRepo;
-        private readonly IUserInfo _userInfo;
 
-        public PitchGrpcService(IPitchRepository pitchRepo, IDistributedCacheRepository distributedCacheRepo, IUserInfo userInfo)
+        public PitchGrpcService(IPitchRepository pitchRepo, IDistributedCacheRepository distributedCacheRepo)
         {
             _pitchRepo = pitchRepo;
             _distributedCacheRepo = distributedCacheRepo;
-            _userInfo = userInfo;
         }
 
         public override async Task<MostSuitablePitchResponse> GetMostSuitablePitch(GetMostSuitablePitchRequest request, ServerCallContext context)
         {
-            var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}");
-            var submittedOrders = await _distributedCacheRepo.GetAsync<List<int>>($"summited-pitchs-by-request-{_userInfo.Id}");
+            var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{request.UserId}");
+            var submittedOrders = await _distributedCacheRepo.GetAsync<List<int>>($"summited-pitchs-by-request-{request.UserId}");
 
             var mostPuitablePitch = await _pitchRepo.GetMostSuitablePitchAsync(request.StoreId
                 , request.Price
                 , (PitchTypeEnum)filteringRequest.PitchType
                 ,  submittedOrders);
 
-            return new MostSuitablePitchResponse
+            var result = new MostSuitablePitchResponse
             {
                 PitchId = mostPuitablePitch.Id,
                 PitchName = mostPuitablePitch.Name,
                 StoreName = mostPuitablePitch.Store.Name,
-                Address = mostPuitablePitch.Store.Address,
+                Address = mostPuitablePitch.Store.Address == null ? "" : mostPuitablePitch.Store.Address,
                 Price = mostPuitablePitch.Price,
             };
+
+            return result;
         }
     }
 }

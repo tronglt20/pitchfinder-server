@@ -8,10 +8,10 @@ var configuration = ConfigurationExtentions.Build();
 
 var services = builder.Services;
 
+services.AddGrpc();
+
 services.AddPitchDatabaseContext(configuration);
 services.AddRedisCache(configuration);
-
-services.AddGrpc();
 
 services
     .AddUnitOfWork<PitchDbContext>()

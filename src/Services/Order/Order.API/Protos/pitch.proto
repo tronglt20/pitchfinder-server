@@ -10,6 +10,7 @@ service PitchProtoService {
 message GetMostSuitablePitchRequest {
 	int32 storeId = 1;
 	int32 price = 2;
+	int32 userId = 3;
 }
 
 message MostSuitablePitchResponse{

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Order.API.Services;
 using Order.Infrastructure;
 using Pitch.Grpc.Protos;
 using Shared.Infrastructure.Dtos;
@@ -30,7 +31,6 @@ namespace Order.API.Extensions
         public static IServiceCollection AddGrpcClients(this IServiceCollection services, IConfiguration configuration)
         {
             configuration.GetSection("GrpcSettings").Get<GrpcSettings>(options => options.BindNonPublicProperties = true);
-
             services.AddGrpcClient<PitchProtoService.PitchProtoServiceClient>(_ =>
             {
                 _.Address = new Uri(GrpcSettings.PitchUrl);
@@ -41,7 +41,8 @@ namespace Order.API.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            return services;
+            return services.AddScoped<OrderService>()
+                           .AddScoped<PitchGrpcService>();
         }
     }
 }
