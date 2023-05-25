@@ -26,7 +26,7 @@ namespace Order.API.Services
             _pitchGrpcService = pitchGrpcService;
         }
 
-        public async Task<OrderConfirmationResponse> OrderAsync(int storeId, OrderConfirmationRequest request)
+        public async Task<OrderConfirmationResponse> SubmitAsync(int storeId, OrderConfirmationRequest request)
         {
             var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}");
             await CachingSubmittedOrderByFilteringRequestAsync(storeId, filteringRequest);

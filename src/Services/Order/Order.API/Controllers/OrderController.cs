@@ -19,9 +19,9 @@ namespace Order.API.Controllers
         }
 
         [HttpPost("{storeId:int}")]
-        public async Task<OrderConfirmationResponse> Order([FromRoute] int storeId, [FromBody] OrderConfirmationRequest request)
+        public async Task<OrderConfirmationResponse> Submit([FromRoute] int storeId, [FromBody] OrderConfirmationRequest request)
         {
-            return await _orderService.OrderAsync(storeId, request);
+            return await _orderService.SubmitAsync(storeId, request);
         }
     }
 }
