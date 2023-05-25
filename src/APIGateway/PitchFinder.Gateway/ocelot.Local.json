@@ -21,7 +21,7 @@
     },
     // Pitch APIs
     {
-      "DownstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "DownstreamPathTemplate": "/api/pitch/{catchAll}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -29,7 +29,7 @@
           "Port": 7012
         }
       ],
-      "UpstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "UpstreamPathTemplate": "/api/pitch/{catchAll}",
       "UpstreamHttpMethod": [],
       "RouteIsCaseSensitive": true,
       "UseServiceDiscovery": false,

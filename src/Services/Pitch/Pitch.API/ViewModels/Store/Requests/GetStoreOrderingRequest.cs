@@ -10,7 +10,7 @@ namespace Pitch.API.ViewModels.Store.Requests
         public Expression<Func<Domain.Entities.Store, bool>> Filter()
         {
             return _ => _.Status == StoreStatusEnum.Open
-                        && _.Pitchs.Any(p => p.Type == (PitchTypeEnum)Type && p.Status == PitchStatusEnum.Open)
+                        && _.Pitchs.Any(p => p.Type == (PitchTypeEnum)PitchType && p.Status == PitchStatusEnum.Open)
                         && _.Open <= Open
                         && _.Close >= Close;
         }
@@ -37,7 +37,7 @@ namespace Pitch.API.ViewModels.Store.Requests
             return new PitchFilteringRequest
             {
                 Date = this.Date,
-                Type = this.Type,
+                PitchType = this.PitchType,
                 Open = this.Open,
                 Close = this.Close,
             };

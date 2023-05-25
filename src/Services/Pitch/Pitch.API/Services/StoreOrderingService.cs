@@ -33,14 +33,16 @@ namespace Pitch.API.Services
 
         public async Task<List<StoreOrderingItemResponse>> GetStoresAsync(GetStoreOrderingRequest request)
         {
+            // Save to cache
+            await _distributedCacheRepo.UpdateAsync<PitchFilteringRequest>
+                ($"filtering-request-{_userInfo.Id}", request.GetFilteringRequest());
+
             var stores = await _storeRepo.GetQuery(request.Filter())
                                   .Select(request.GetSelection())
                                   .ToListAsync();
 
             foreach (var store in stores)
             {
-                await _distributedCacheRepo.UpdateAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}", request.GetFilteringRequest());
-
                 if (!string.IsNullOrEmpty(store.AttachmentKeyname))
                     store.BackgroundUrl = await _attachmentService.GetPresignedUrl(store.AttachmentKeyname);
             }
@@ -68,7 +70,7 @@ namespace Pitch.API.Services
                                             .Select(p => p.Price)
                                             .FirstOrDefault(),
                             Date = filteringRequest.Date,
-                            Type = filteringRequest.Type,
+                            PitchType = filteringRequest.PitchType,
                             Open = filteringRequest.Open,
                             Close = filteringRequest.Close,
                         }).FirstOrDefaultAsync();

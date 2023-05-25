@@ -7,7 +7,7 @@ using Shared.API.Identity;
 
 namespace Pitch.API.Controllers
 {
-    [Route("api/pitchfinder/store-ordering")]
+    [Route("api/pitch/store-ordering")]
     [Authorize(PolicyNames.Customer_API)]
     public class StoreOrderingController
     {
