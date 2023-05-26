@@ -15,30 +15,34 @@ namespace Pitch.API.Services
 {
     public class StoreOrderingService
     {
-        private readonly IStoreRepository _storeRepo;
         private readonly AttachmentService<Attachment, PitchDbContext> _attachmentService;
-        private readonly IUserInfo _userInfo;
         private readonly IDistributedCacheRepository _distributedCacheRepo;
+        private readonly OrderGrpcService _orderGrpcService;
+        private readonly IStoreRepository _storeRepo;
+        private readonly IUserInfo _userInfo;
 
         public StoreOrderingService(IStoreRepository storeRepo
             , AttachmentService<Attachment, PitchDbContext> attachmentService
             , IUserInfo userInfo
-            , IDistributedCacheRepository distributedCacheRepo)
+            , IDistributedCacheRepository distributedCacheRepo
+            , OrderGrpcService orderGrpcService)
         {
             _storeRepo = storeRepo;
             _attachmentService = attachmentService;
             _userInfo = userInfo;
             _distributedCacheRepo = distributedCacheRepo;
+            _orderGrpcService = orderGrpcService;
         }
 
         public async Task<List<StoreOrderingItemResponse>> GetStoresAsync(GetStoreOrderingRequest request)
         {
-            // Save to cache
+            // Caching user filtering request
             await _distributedCacheRepo.UpdateAsync<PitchFilteringRequest>
                 ($"filtering-request-{_userInfo.Id}", request.GetFilteringRequest());
 
-            var stores = await _storeRepo.GetQuery(request.Filter())
-                                  .Select(request.GetSelection())
+            var summitedOrder = await GetSummitedOrdersByFilteringRequest();
+            var stores = await _storeRepo.GetQuery(request.Filter(summitedOrder))
+                                  .Select(request.GetSelection(summitedOrder))
                                   .ToListAsync();
 
             foreach (var store in stores)
@@ -79,6 +83,18 @@ namespace Pitch.API.Services
                 store.BackgroundUrl = await _attachmentService.GetPresignedUrl(store.AttachmentKeyname);
 
             return store;
+        }
+
+        private async Task<List<SummitedOrderByFilteringResponse>> GetSummitedOrdersByFilteringRequest()
+        {
+            var summitedOrders = await _orderGrpcService.GetOrders();
+            var reponse = summitedOrders.OrderItem.GroupBy(_ => _.StoreId).Select(_ => new SummitedOrderByFilteringResponse
+            {
+                StoreId = _.Key,
+                PitchIds = _.Select(_ => _.PitchId).ToList()
+            }).ToList();
+
+            return reponse;
         }
     }
 }

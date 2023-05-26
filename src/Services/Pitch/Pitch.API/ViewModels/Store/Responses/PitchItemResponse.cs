@@ -10,5 +10,6 @@ namespace Pitch.API.ViewModels.Store.Responses
         public TimeSpan Close { get; set; }
         public PitchStatusEnum Status { get; set; }
         public PitchTypeEnum Type { get; set; }
+        public int Price { get; set; }
     }
 }

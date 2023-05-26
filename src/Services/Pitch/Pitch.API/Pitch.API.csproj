@@ -11,6 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\order.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.54.0-pre1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,6 +31,10 @@
     <ProjectReference Include="..\..\Shared.API\Shared.API.csproj" />
     <ProjectReference Include="..\Pitch.Domain\Pitch.Domain.csproj" />
     <ProjectReference Include="..\Pitch.Infrastructure\Pitch.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\order.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

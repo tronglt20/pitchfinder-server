@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Order.API.ViewModels.Order.Requests;
 using Order.API.ViewModels.Order.Responses;
+using Order.Domain.Enums;
 using Order.Domain.Interfaces;
+using Order.Infrastructure;
 using Shared.API.ViewModels;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure.DTOs;
@@ -10,20 +12,23 @@ namespace Order.API.Services
 {
     public class OrderService
     {
-        private readonly IOrderRepository _orderRepo;
         private readonly IDistributedCacheRepository _distributedCacheRepo;
-        private readonly IUserInfo _userInfo;
         private readonly PitchGrpcService _pitchGrpcService;
+        private readonly IUnitOfWorkBase _unitOfWorkBase;
+        private readonly IOrderRepository _orderRepo;
+        private readonly IUserInfo _userInfo;
 
         public OrderService(IOrderRepository orderRepo
             , IDistributedCacheRepository distributedCacheRepo
             , IUserInfo userInfo
-            , PitchGrpcService pitchGrpcService)
+            , PitchGrpcService pitchGrpcService
+            , IUnitOfWorkBase<OrderDbContext> unitOfWorkBase)
         {
             _orderRepo = orderRepo;
             _distributedCacheRepo = distributedCacheRepo;
             _userInfo = userInfo;
             _pitchGrpcService = pitchGrpcService;
+            _unitOfWorkBase = unitOfWorkBase;
         }
 
         public async Task<OrderConfirmationResponse> SubmitAsync(int storeId, OrderConfirmationRequest request)
@@ -31,6 +36,24 @@ namespace Order.API.Services
             var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}");
             await CachingSubmittedOrderByFilteringRequestAsync(storeId, filteringRequest);
             var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(storeId, request.Price);
+
+            // Testing submit Order
+            var newOrder = new Domain.Entities.Order()
+            {
+                StoreId = storeId,
+                PitchId = mostSuitablePitch.PitchId,
+                PitchType = filteringRequest.PitchType,
+                Status = OrderStatusEnum.Succesed,
+                Price = mostSuitablePitch.Price,
+                Date = filteringRequest.Date,
+                Start = filteringRequest.Start,
+                End = filteringRequest.End,
+                Note = request.Note,
+                CreatedById = _userInfo.Id,
+                CreatedOn = DateTime.UtcNow,
+            };
+            await _orderRepo.InsertAsync(newOrder);
+            await _unitOfWorkBase.SaveChangesAsync();
 
             return new OrderConfirmationResponse
             {

@@ -1,7 +1,9 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Order.Grpc.Protos;
 using Pitch.API.Services;
 using Pitch.Infrastructure;
+using Shared.Infrastructure.Dtos;
 
 namespace Pitch.API.Extensions
 {
@@ -27,10 +29,22 @@ namespace Pitch.API.Extensions
             return services;
         }
 
+        public static IServiceCollection AddGrpcClients(this IServiceCollection services, IConfiguration configuration)
+        {
+            configuration.GetSection("GrpcSettings").Get<GrpcSettings>(options => options.BindNonPublicProperties = true);
+            services.AddGrpcClient<OrderProtoService.OrderProtoServiceClient>(_ =>
+            {
+                _.Address = new Uri(GrpcSettings.OrderUrl);
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             return services.AddScoped<StoreService>()
-                           .AddScoped<StoreOrderingService>();
+                           .AddScoped<StoreOrderingService>()
+                           .AddScoped<OrderGrpcService>();
         }
     }
 }

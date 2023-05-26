@@ -18,6 +18,8 @@ namespace Pitch.Infrastructure.Repositories
         public async Task<Domain.Entities.Pitch> GetMostSuitablePitchAsync(int storeId, int price, PitchTypeEnum pitchType, List<int> submittedPitchs)
         {
             return await GetAsync(_ => _.StoreId == storeId
+                && _.Store.Status == StoreStatusEnum.Open
+                && _.Status == PitchStatusEnum.Open 
                 && (submittedPitchs.Any() ? !submittedPitchs.Contains(_.Id) : true) 
                 && _.Type == pitchType
                 && _.Price == price);

@@ -1,4 +1,5 @@
 using Order.Grpc.Extensions;
+using Order.Grpc.Services;
 using Order.Infrastructure;
 using Shared.API.Extensions;
 
@@ -17,6 +18,6 @@ services
 
 var app = builder.Build();
 
-/*app.MapGrpcService<PitchGrpcService>();*/
+app.MapGrpcService<OrderGrpcService>();
 
 app.Run();

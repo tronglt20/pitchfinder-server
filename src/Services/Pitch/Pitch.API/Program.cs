@@ -17,6 +17,9 @@ services.AddRedisCache(configuration);
 // Config User claims info
 services.AddUserInfo();
 
+// Add gRPC clients
+services.AddGrpcClients(configuration);
+
 services
     .AddUnitOfWork<PitchDbContext>()
     .AddBaseRepositories()

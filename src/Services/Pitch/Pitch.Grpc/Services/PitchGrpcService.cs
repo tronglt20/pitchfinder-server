@@ -28,6 +28,9 @@ namespace Pitch.Grpc.Services
                 , (PitchTypeEnum)filteringRequest.PitchType
                 , submittedOrders);
 
+            if (mostPuitablePitch == null)
+                throw new Exception("Can not find the suitable pitch, try again pleas.");
+
             var result = new MostSuitablePitchResponse
             {
                 PitchId = mostPuitablePitch.Id,
