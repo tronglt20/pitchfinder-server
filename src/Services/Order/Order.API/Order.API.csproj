@@ -8,6 +8,8 @@
     <UserSecretsId>29c8d9e9-0a79-4359-af88-84cbd19abf33</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+	<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+
   </PropertyGroup>
 
   <ItemGroup>
