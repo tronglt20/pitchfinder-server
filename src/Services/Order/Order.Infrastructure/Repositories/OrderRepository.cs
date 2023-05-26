@@ -1,4 +1,5 @@
-﻿using Order.Domain.Interfaces;
+﻿using Order.Domain.Enums;
+using Order.Domain.Interfaces;
 using Shared.Infrastructure;
 
 namespace Order.Infrastructure.Repositories
@@ -15,7 +16,17 @@ namespace Order.Infrastructure.Repositories
                          && _.Date == date
                          && _.PitchType == pitchType
                          && _.Start == start
-                         && _.End == end);
+                         && _.End == end
+                         && _.Status == OrderStatusEnum.Succesed);
+        }
+
+        public IQueryable<Domain.Entities.Order> GetByFilteringRequest(DateTime date, int pitchType, TimeSpan start, TimeSpan end)
+        {
+            return GetQuery(_ => _.Date == date
+                         && _.PitchType == pitchType
+                         && _.Start == start
+                         && _.End == end
+                         && _.Status == OrderStatusEnum.Succesed);
         }
     }
 }

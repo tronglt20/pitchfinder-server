@@ -9,5 +9,10 @@ namespace Order.Domain.Interfaces
             , int pitchType
             , TimeSpan start
             , TimeSpan end);
+
+        IQueryable<Domain.Entities.Order> GetByFilteringRequest(DateTime date
+           , int pitchType
+           , TimeSpan start
+           , TimeSpan end);
     }
 }

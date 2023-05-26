@@ -1,0 +1,23 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Order.Grpc.Protos";
+
+service OrderProtoService {
+  rpc GetOrderByFiltering (GetOrdersByFilteringRequest) returns (OrdersByFilteringResponse);
+}
+
+
+message GetOrdersByFilteringRequest {
+	int32 userId = 1;
+}
+
+message OrdersByFilteringResponse{
+	repeated OrderItemByFiltering OrderItem = 1;
+}
+
+
+message OrderItemByFiltering{
+	int32 storeId = 1;
+	int32 pitchId = 2;
+}
+

@@ -4,7 +4,6 @@ using Pitch.Domain.Interfaces;
 using Pitch.Grpc.Protos;
 using Shared.API.ViewModels;
 using Shared.Domain.Interfaces;
-using Shared.Infrastructure.DTOs;
 
 namespace Pitch.Grpc.Services
 {
@@ -27,7 +26,7 @@ namespace Pitch.Grpc.Services
             var mostPuitablePitch = await _pitchRepo.GetMostSuitablePitchAsync(request.StoreId
                 , request.Price
                 , (PitchTypeEnum)filteringRequest.PitchType
-                ,  submittedOrders);
+                , submittedOrders);
 
             var result = new MostSuitablePitchResponse
             {

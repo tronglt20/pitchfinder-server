@@ -31,8 +31,6 @@ namespace Order.API.Services
             var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}");
             await CachingSubmittedOrderByFilteringRequestAsync(storeId, filteringRequest);
             var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(storeId, request.Price);
-            if (mostSuitablePitch == null)
-                throw new Exception("Lỗi không tìm thấy sân, vui lòng chọn lại sân khác");
 
             return new OrderConfirmationResponse
             {

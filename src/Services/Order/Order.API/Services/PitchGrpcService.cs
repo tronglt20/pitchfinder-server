@@ -31,7 +31,7 @@ namespace Order.API.Services
             catch (Exception e)
             {
 
-                throw;
+                throw new Exception("Lỗi không tìm thấy sân, vui lòng chọn lại sân khác");
             }
         }
     }
