@@ -37,6 +37,26 @@
       "HttpHandlerOptions": {
         "AllowAutoRedirect": true
       }
+    },
+
+    // Order APIs
+    {
+      "DownstreamPathTemplate": "/api/order/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7014
+        }
+      ],
+      "UpstreamPathTemplate": "/api/order/{catchAll}",
+      "UpstreamHttpMethod": [],
+      "RouteIsCaseSensitive": true,
+      "UseServiceDiscovery": false,
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      }
     }
   ],
   "GlobalConfiguration": {

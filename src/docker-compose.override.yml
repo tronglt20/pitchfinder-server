@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
   redis.db: 
     container_name: redis.db
     restart: always
@@ -33,6 +41,17 @@ services:
     restart: always
     ports:
         - "1437:1433"
+        
+
+  pitchfinder.gateway:
+    container_name: pitchfinder.gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - iam.api
+      - pitch.api
+    ports:
+      - "8090:80"
 
   iam.api:
     container_name: iam.api
@@ -54,19 +73,30 @@ services:
       - "8012:80"
 
 
-  pitchfinder.gateway:
-    container_name: pitchfinder.gateway
+  pitch.grpc:
+    container_name: pitch.grpc
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      - iam.api
-      - pitch.api
+      - pitch.db
     ports:
-      - "8090:80"
+      - "8013:80"
 
-  rabbitmq:
-    container_name: rabbitmq
-    restart: always
+  order.api:
+    container_name: order.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - order.db
     ports:
-        - "5672:5672"
-        - "15672:15672"
+      - "8014:80"
+
+  order.grpc:
+    container_name: order.grpc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - order.db
+    ports:
+      - "8015:80"
+

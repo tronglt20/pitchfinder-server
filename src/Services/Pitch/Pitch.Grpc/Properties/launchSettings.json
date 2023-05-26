@@ -1,12 +1,16 @@
-﻿{
+{
   "profiles": {
     "Pitch.Grpc": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "applicationUrl": "http://localhost:7013",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
-      }
+      },
+      "applicationUrl": "http://localhost:7013"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true
     }
   }
 }

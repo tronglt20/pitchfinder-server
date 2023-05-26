@@ -1,12 +1,16 @@
-﻿{
+{
   "profiles": {
     "Order.Grpc": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "applicationUrl": "http://localhost:7015",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
-      }
+      },
+      "applicationUrl": "http://localhost:7015"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true
     }
   }
 }

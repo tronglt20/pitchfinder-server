@@ -21,7 +21,7 @@
     },
     // Pitch APIs
     {
-      "DownstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "DownstreamPathTemplate": "/api/pitch/{catchAll}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -29,7 +29,26 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/pitchfinder/{catchAll}",
+      "UpstreamPathTemplate": "/api/pitch/{catchAll}",
+      "UpstreamHttpMethod": [],
+      "RouteIsCaseSensitive": true,
+      "UseServiceDiscovery": false,
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      }
+    },
+    // Order APIs
+    {
+      "DownstreamPathTemplate": "/api/order/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "order.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/order/{catchAll}",
       "UpstreamHttpMethod": [],
       "RouteIsCaseSensitive": true,
       "UseServiceDiscovery": false,

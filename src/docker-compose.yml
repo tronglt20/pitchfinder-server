@@ -4,6 +4,9 @@ services:
   redis.db:
     image: redis:alpine
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
   iam.db:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
@@ -25,14 +28,31 @@ services:
       context: .
       dockerfile: Services/IAM/IAM.API/Dockerfile
 
+
   pitch.api:
     image: ${DOCKER_REGISTRY-}pitchapi
     build:
       context: .
       dockerfile: Services/Pitch/Pitch.API/Dockerfile
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
+
+  pitch.grpc:
+    image: ${DOCKER_REGISTRY-}pitchgrpc
+    build:
+      context: .
+      dockerfile: Services/Pitch/Pitch.Grpc/Dockerfile
 
 
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: Services/Order/Order.API/Dockerfile
+
+
+  order.grpc:
+    image: ${DOCKER_REGISTRY-}ordergrpc
+    build:
+      context: .
+      dockerfile: Services/Order/Order.Grpc/Dockerfile
 

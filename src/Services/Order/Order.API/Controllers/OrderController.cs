@@ -7,7 +7,7 @@ using Shared.API.Identity;
 
 namespace Order.API.Controllers
 {
-    [Route("api/pitch/order")]
+    [Route("api/order")]
     [Authorize(PolicyNames.Customer_API)]
     public class OrderController : ControllerBase
     {
