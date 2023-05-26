@@ -5,6 +5,11 @@ namespace Order.Domain.Entities
 {
     public class Order : BaseEntity<int>
     {
+        public Order()
+        {
+
+        }
+
         public int StoreId { get; set; }
         public int PitchId { get; set; }
         public int PitchType { get; set; }
