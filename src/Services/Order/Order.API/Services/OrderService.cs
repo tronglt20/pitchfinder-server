@@ -31,16 +31,16 @@ namespace Order.API.Services
             _unitOfWorkBase = unitOfWorkBase;
         }
 
-        public async Task<OrderConfirmationResponse> SubmitAsync(int storeId, OrderConfirmationRequest request)
+        public async Task<OrderConfirmationResponse> SubmitAsync(OrderConfirmationRequest request)
         {
             var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}");
-            await CachingSubmittedOrderByFilteringRequestAsync(storeId, filteringRequest);
-            var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(storeId, request.Price);
+            await CachingSubmittedOrderByFilteringRequestAsync(request.StoreId, filteringRequest);
+            var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(request.StoreId, request.Price);
 
             // Testing submit Order
             var newOrder = new Domain.Entities.Order()
             {
-                StoreId = storeId,
+                StoreId = request.StoreId,
                 PitchId = mostSuitablePitch.PitchId,
                 PitchType = filteringRequest.PitchType,
                 Status = OrderStatusEnum.Succesed,
@@ -57,7 +57,7 @@ namespace Order.API.Services
 
             return new OrderConfirmationResponse
             {
-                StoreId = storeId,
+                StoreId = request.StoreId,
                 StoreName = mostSuitablePitch.StoreName,
                 PitchId = mostSuitablePitch.PitchId,
                 PitchName = mostSuitablePitch.PitchName,
