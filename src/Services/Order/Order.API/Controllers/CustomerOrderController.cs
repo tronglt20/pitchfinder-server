@@ -25,7 +25,7 @@ namespace Order.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<List<CustomerOrderHistoryItemReponse>> GetOrders()
+        public async Task<List<OrderHistoryItemReponse>> GetOrders()
         {
             return await _orderService.GetOrdersAsync();
         }

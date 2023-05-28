@@ -74,5 +74,28 @@ namespace Pitch.Grpc.Services
             response.Pitchs.AddRange(pitchs);
             return response;
         }
+
+        public override async Task<PitchInfoResponse> GetOwnerPitchInfo(GetOwnerPitchInfoRequest request, ServerCallContext context)
+        {
+            var stores = await _storeRepo.GetQuery(_ => _.OwnerId == request.UserId)
+              .Select(_ => new StoreItemInfoResponse
+              {
+                  StoreId = _.Id,
+                  StoreName = _.Name,
+                  Address = _.Address,
+              }).ToListAsync();
+
+            var pitchs = await _pitchRepo.GetQuery(_ => _.Store.OwnerId == request.UserId)
+                .Select(_ => new PitchItemInfoResponse
+                {
+                    PitchId = _.Id,
+                    PitchName = _.Name,
+                }).ToListAsync();
+
+            var response = new PitchInfoResponse();
+            response.Stores.AddRange(stores);
+            response.Pitchs.AddRange(pitchs);
+            return response;
+        }
     }
 }

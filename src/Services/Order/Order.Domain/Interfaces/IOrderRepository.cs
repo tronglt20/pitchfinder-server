@@ -16,6 +16,6 @@ namespace Order.Domain.Interfaces
            , TimeSpan end);
 
         Task<List<Domain.Entities.Order>> GetCustomerOrdersAsync(int userId);
-        Task<List<Domain.Entities.Order>> GetAdminOrdersAsync(int storeId);
+        Task<List<Domain.Entities.Order>> GetOwnerOrdersAsync(int storeId);
     }
 }

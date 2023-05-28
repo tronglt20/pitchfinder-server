@@ -2,7 +2,7 @@
 
 namespace Order.API.ViewModels.Order.Responses
 {
-    public class CustomerOrderHistoryItemReponse
+    public class OrderHistoryItemReponse
     {
         public int OrderId { get; set; }
         public int StoreId { get; set; }

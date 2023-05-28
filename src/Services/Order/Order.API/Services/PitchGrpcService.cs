@@ -1,4 +1,5 @@
-﻿using Pitch.Grpc.Protos;
+﻿#nullable disable
+using Pitch.Grpc.Protos;
 using Shared.Infrastructure.DTOs;
 
 namespace Order.API.Services
@@ -22,35 +23,26 @@ namespace Order.API.Services
                 Price = price,
                 UserId = _userInfo.Id,
             };
-
-            try
-            {
-                return await _grpcClient.GetMostSuitablePitchAsync(request);
-
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception("Lỗi không tìm thấy sân, vui lòng chọn lại sân khác");
-            }
+            return await _grpcClient.GetMostSuitablePitchAsync(request);
         }
 
         public async Task<PitchInfoResponse> GetPitchInfoAsync(List<Domain.Entities.Order> orders)
         {
-            try
+            var request = new GetPitchInfoRequest();
+            request.StoreIds.AddRange(orders.Select(_ => _.StoreId).ToList());
+            request.PitchIds.AddRange(orders.Select(_ => _.PitchId).ToList());
+
+            return await _grpcClient.GetPitchInfoAsync(request);
+        }
+
+        public async Task<PitchInfoResponse> GetOwnerPitchInfoAsync()
+        {
+            var request = new GetOwnerPitchInfoRequest()
             {
-                var request = new GetPitchInfoRequest();
-                request.StoreIds.AddRange(orders.Select(_ => _.StoreId).ToList());
-                request.PitchIds.AddRange(orders.Select(_ => _.PitchId).ToList());
+                UserId = _userInfo.Id,
+            };
 
-                return await _grpcClient.GetPitchInfoAsync(request);
-
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception("Lỗi không tìm thấy sân");
-            }
+            return await _grpcClient.GetOwnerPitchInfoAsync(request);
         }
     }
 }

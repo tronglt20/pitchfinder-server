@@ -5,6 +5,8 @@ option csharp_namespace = "Pitch.Grpc.Protos";
 service PitchProtoService {
   rpc GetMostSuitablePitch (GetMostSuitablePitchRequest) returns (MostSuitablePitchResponse);
   rpc GetPitchInfo (GetPitchInfoRequest) returns (PitchInfoResponse);
+  rpc GetOwnerPitchInfo (GetOwnerPitchInfoRequest) returns (PitchInfoResponse);
+
 }
 
 // GetMostSuitablePitch	
@@ -42,4 +44,9 @@ message StoreItemInfoResponse{
 message PitchItemInfoResponse{
 	int32 pitchId = 1;
 	string pitchName = 2;
+}
+
+// GetOwnerPitchInfo
+message GetOwnerPitchInfoRequest {
+	int32 userId = 1;
 }

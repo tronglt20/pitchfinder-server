@@ -35,7 +35,7 @@ namespace Order.Infrastructure.Repositories
             return await GetQuery(_ => _.CreatedById == userId).ToListAsync();
         }
 
-        public async Task<List<Domain.Entities.Order>> GetAdminOrdersAsync(int storeId)
+        public async Task<List<Domain.Entities.Order>> GetOwnerOrdersAsync(int storeId)
         {
             return await GetQuery(_ => _.StoreId == storeId).ToListAsync();
         }

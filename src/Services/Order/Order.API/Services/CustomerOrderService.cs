@@ -53,7 +53,7 @@ namespace Order.API.Services
             };
         }
 
-        public async Task<List<CustomerOrderHistoryItemReponse>> GetOrdersAsync()
+        public async Task<List<OrderHistoryItemReponse>> GetOrdersAsync()
         {
             var orders = await _orderRepo.GetCustomerOrdersAsync(_userInfo.Id);
             if (orders == null)
@@ -62,7 +62,7 @@ namespace Order.API.Services
             var pichInfo = await _pitchGrpcService.GetPitchInfoAsync(orders);
             var stores = pichInfo.Stores.ToList();
             var pitchs = pichInfo.Pitchs.ToList();
-            return orders.Select(_ => new CustomerOrderHistoryItemReponse
+            return orders.Select(_ => new OrderHistoryItemReponse
             {
                 OrderId = _.Id,
                 StoreId = _.StoreId,
@@ -81,7 +81,6 @@ namespace Order.API.Services
                 End = _.End,
                 CreatedOn = _.CreatedOn,
             }).ToList();
-
         }
 
         private async Task CachingSubmittedOrderByFilteringRequestAsync(int storeId, PitchFilteringRequest filteringRequest)
