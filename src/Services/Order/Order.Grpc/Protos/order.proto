@@ -12,12 +12,5 @@ message GetOrdersByFilteringRequest {
 }
 
 message OrdersByFilteringResponse{
-	repeated OrderItemByFiltering OrderItem = 1;
+	repeated int32 PitchId = 1;
 }
-
-
-message OrderItemByFiltering{
-	int32 storeId = 1;
-	int32 pitchId = 2;
-}
-

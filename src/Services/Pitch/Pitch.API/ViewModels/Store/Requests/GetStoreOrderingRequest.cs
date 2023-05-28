@@ -7,22 +7,17 @@ namespace Pitch.API.ViewModels.Store.Requests
 {
     public class GetStoreOrderingRequest : PitchFilteringRequest
     {
-        public Expression<Func<Domain.Entities.Store, bool>> Filter(List<SummitedOrderByFilteringResponse> summitedOrder)
+        public Expression<Func<Domain.Entities.Store, bool>> GetFilter(List<int> submitedPitchIds)
         {
             return _ =>
-                        (
-                            (summitedOrder.Any() && summitedOrder.Any(s => s.StoreId == _.Id))
-                            ? _.Pitchs.Where(p => p.Type == (PitchTypeEnum)PitchType && p.Status == PitchStatusEnum.Open)
-                                      .Any(p => summitedOrder.Any(s => s.StoreId == _.Id && !s.PitchIds.Contains(p.Id)))
-                            : true
-                        )
+                        !_.Pitchs.Where(p => p.Type == (PitchTypeEnum)PitchType && p.Status == PitchStatusEnum.Open)
+                                 .All(p => submitedPitchIds.Contains(p.Id))
                         && _.Status == StoreStatusEnum.Open
-                        && _.Pitchs.Any(p => p.Type == (PitchTypeEnum)PitchType && p.Status == PitchStatusEnum.Open)
                         && _.Open <= Start
                         && _.Close >= End;
         }
 
-        public Expression<Func<Domain.Entities.Store, StoreOrderingItemResponse>> GetSelection(List<SummitedOrderByFilteringResponse> summitedOrder)
+        public Expression<Func<Domain.Entities.Store, StoreOrderingItemResponse>> GetSelection(List<int> submitedPitchIds)
         {
             return _ => new StoreOrderingItemResponse
             {
@@ -32,10 +27,7 @@ namespace Pitch.API.ViewModels.Store.Requests
                 PhoneNumber = _.PhoneNumber,
                 Rating = _.StoreRatings.Any() ? (int)_.StoreRatings.Average(_ => _.Rating) : 5,
                 AttachmentKeyname = _.StoreAttachments.Select(_ => _.Attachment.KeyName).FirstOrDefault(),
-                Price = _.Pitchs.Where(p => 
-                                        (!summitedOrder.Any() || summitedOrder.Any(s => s.StoreId == _.Id && !s.PitchIds.Contains(p.Id))) 
-                                        && p.Status == PitchStatusEnum.Open
-                                      )
+                Price = _.Pitchs.Where(p => !submitedPitchIds.Contains(p.Id) && p.Status == PitchStatusEnum.Open)
                                      .OrderBy(p => p.Price)
                                      .Select(p => p.Price)
                                      .FirstOrDefault(),

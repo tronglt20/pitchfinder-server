@@ -14,7 +14,7 @@ namespace Pitch.API.Services
             _userInfo = userInfo;
         }
 
-        public async Task<OrdersByFilteringResponse> GetOrders()
+        public async Task<List<int>> GetSubmitedPitchIdsAsync()
         {
             var request = new GetOrdersByFilteringRequest
             {
@@ -23,7 +23,8 @@ namespace Pitch.API.Services
 
             try
             {
-                return await _grpcClient.GetOrderByFilteringAsync(request);
+                var order = await _grpcClient.GetOrderByFilteringAsync(request);
+                return order.PitchId.ToList();
 
             }
             catch (Exception e)

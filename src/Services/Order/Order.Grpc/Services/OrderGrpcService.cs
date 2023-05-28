@@ -21,19 +21,15 @@ namespace Order.Grpc.Services
         public override async Task<OrdersByFilteringResponse> GetOrderByFiltering(GetOrdersByFilteringRequest request
             , ServerCallContext context)
         {
-            var response = new OrdersByFilteringResponse();
             var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{request.UserId}");
 
-            var orderItems = await _orderRepo.GetByFilteringRequest(filteringRequest.Date
+            var pitchIds = await _orderRepo.GetByFilteringRequest(filteringRequest.Date
                 , filteringRequest.PitchType
                 , filteringRequest.Start
-                , filteringRequest.End).Select(_ => new OrderItemByFiltering
-                {
-                    StoreId = _.StoreId,
-                    PitchId = _.PitchId,
-                }).ToListAsync();
+                , filteringRequest.End).Select(_ =>_.PitchId).ToListAsync();
 
-            response.OrderItem.AddRange(orderItems);
+            var response = new OrdersByFilteringResponse();
+            response.PitchId.AddRange(pitchIds);
             return response;
         }
     }

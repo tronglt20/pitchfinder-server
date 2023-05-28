@@ -40,9 +40,9 @@ namespace Pitch.API.Services
             await _distributedCacheRepo.UpdateAsync<PitchFilteringRequest>
                 ($"filtering-request-{_userInfo.Id}", request.GetFilteringRequest());
 
-            var summitedOrder = await GetSummitedOrdersByFilteringRequest();
-            var stores = await _storeRepo.GetQuery(request.Filter(summitedOrder))
-                                  .Select(request.GetSelection(summitedOrder))
+            var submitedPitchIds = await _orderGrpcService.GetSubmitedPitchIdsAsync();
+            var stores = await _storeRepo.GetQuery(request.GetFilter(submitedPitchIds))
+                                  .Select(request.GetSelection(submitedPitchIds))
                                   .ToListAsync();
 
             foreach (var store in stores)
@@ -83,18 +83,6 @@ namespace Pitch.API.Services
                 store.BackgroundUrl = await _attachmentService.GetPresignedUrl(store.AttachmentKeyname);
 
             return store;
-        }
-
-        private async Task<List<SummitedOrderByFilteringResponse>> GetSummitedOrdersByFilteringRequest()
-        {
-            var summitedOrders = await _orderGrpcService.GetOrders();
-            var reponse = summitedOrders.OrderItem.GroupBy(_ => _.StoreId).Select(_ => new SummitedOrderByFilteringResponse
-            {
-                StoreId = _.Key,
-                PitchIds = _.Select(_ => _.PitchId).ToList()
-            }).ToList();
-
-            return reponse;
         }
     }
 }
