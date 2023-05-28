@@ -4,6 +4,7 @@ using Pitch.API.Services;
 using Pitch.API.ViewModels.Store.Requests;
 using Pitch.API.ViewModels.Store.Responses;
 using Shared.API.Identity;
+using Shared.API.ViewModels;
 
 namespace Pitch.API.Controllers
 {
@@ -24,10 +25,10 @@ namespace Pitch.API.Controllers
             return await _storeOrderingService.GetStoresAsync(request);
         }
 
-        [HttpGet("{id}")]
-        public async Task<StoreOrderingDetailResponse> GetStore([FromRoute] int id)
+        [HttpGet("filtering-request")]
+        public async Task<PitchFilteringRequest> GetFilteringRequest()
         {
-            return await _storeOrderingService.GetStoreAsync(id);
+            return await _storeOrderingService.GetFilteringRequestAsync();
         }
     }
 }
