@@ -1,21 +1,27 @@
 ﻿using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using Pitch.Domain.Enums;
 using Pitch.Domain.Interfaces;
 using Pitch.Grpc.Protos;
 using Shared.API.ViewModels;
 using Shared.Domain.Interfaces;
+using ZstdSharp.Unsafe;
 
 namespace Pitch.Grpc.Services
 {
     public class PitchGrpcService : PitchProtoService.PitchProtoServiceBase
     {
+        private readonly IStoreRepository _storeRepo;
         private readonly IPitchRepository _pitchRepo;
         private readonly IDistributedCacheRepository _distributedCacheRepo;
 
-        public PitchGrpcService(IPitchRepository pitchRepo, IDistributedCacheRepository distributedCacheRepo)
+        public PitchGrpcService(IPitchRepository pitchRepo
+            , IDistributedCacheRepository distributedCacheRepo
+            , IStoreRepository storeRepo)
         {
             _pitchRepo = pitchRepo;
             _distributedCacheRepo = distributedCacheRepo;
+            _storeRepo = storeRepo;
         }
 
         public override async Task<MostSuitablePitchResponse> GetMostSuitablePitch(GetMostSuitablePitchRequest request, ServerCallContext context)
@@ -41,6 +47,32 @@ namespace Pitch.Grpc.Services
             };
 
             return result;
+        }
+
+        public override async Task<PitchInfoResponse> GetPitchInfo(GetPitchInfoRequest request, ServerCallContext context)
+        {
+            var storeIds = request.StoreIds.ToList();
+            var pitchIds = request.PitchIds.ToList();
+
+            var stores = await _storeRepo.GetQuery(_ => storeIds.Contains(_.Id))
+              .Select(_ => new StoreItemInfoResponse
+              {
+                  StoreId = _.Id,
+                  StoreName = _.Name,
+                  Address = _.Address,
+              }).ToListAsync();
+
+            var pitchs = await _pitchRepo.GetQuery(_ => pitchIds.Contains(_.Id))
+                .Select(_ => new PitchItemInfoResponse
+                {
+                    PitchId = _.Id,
+                    PitchName = _.Name,
+                }).ToListAsync();
+
+            var response = new PitchInfoResponse();
+            response.Stores.AddRange(stores);
+            response.Pitchs.AddRange(pitchs);
+            return response;
         }
     }
 }

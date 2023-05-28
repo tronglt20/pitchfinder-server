@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#nullable disable
+using Microsoft.EntityFrameworkCore;
 using Order.API.ViewModels.Order.Requests;
 using Order.API.ViewModels.Order.Responses;
-using Order.Domain.Enums;
 using Order.Domain.Interfaces;
 using Order.Infrastructure;
 using Shared.API.ViewModels;
@@ -10,7 +10,7 @@ using Shared.Infrastructure.DTOs;
 
 namespace Order.API.Services
 {
-    public class OrderService
+    public class CustomerOrderService
     {
         private readonly IDistributedCacheRepository _distributedCacheRepo;
         private readonly PitchGrpcService _pitchGrpcService;
@@ -18,7 +18,7 @@ namespace Order.API.Services
         private readonly IOrderRepository _orderRepo;
         private readonly IUserInfo _userInfo;
 
-        public OrderService(IOrderRepository orderRepo
+        public CustomerOrderService(IOrderRepository orderRepo
             , IDistributedCacheRepository distributedCacheRepo
             , IUserInfo userInfo
             , PitchGrpcService pitchGrpcService
@@ -37,24 +37,6 @@ namespace Order.API.Services
             await CachingSubmittedOrderByFilteringRequestAsync(request.StoreId, filteringRequest);
             var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(request.StoreId, request.Price);
 
-            // Testing submit Order
-            var newOrder = new Domain.Entities.Order()
-            {
-                StoreId = request.StoreId,
-                PitchId = mostSuitablePitch.PitchId,
-                PitchType = filteringRequest.PitchType,
-                Status = OrderStatusEnum.Succesed,
-                Price = mostSuitablePitch.Price,
-                Date = filteringRequest.Date,
-                Start = filteringRequest.Start,
-                End = filteringRequest.End,
-                Note = request.Note,
-                CreatedById = _userInfo.Id,
-                CreatedOn = DateTime.UtcNow,
-            };
-            await _orderRepo.InsertAsync(newOrder);
-            await _unitOfWorkBase.SaveChangesAsync();
-
             return new OrderConfirmationResponse
             {
                 StoreId = request.StoreId,
@@ -69,6 +51,37 @@ namespace Order.API.Services
                 End = filteringRequest.End,
                 Note = request.Note,
             };
+        }
+
+        public async Task<List<CustomerOrderHistoryItemReponse>> GetOrdersAsync()
+        {
+            var orders = await _orderRepo.GetCustomerOrdersAsync(_userInfo.Id);
+            if (orders == null)
+                return null;
+
+            var pichInfo = await _pitchGrpcService.GetPitchInfoAsync(orders);
+            var stores = pichInfo.Stores.ToList();
+            var pitchs = pichInfo.Pitchs.ToList();
+            return orders.Select(_ => new CustomerOrderHistoryItemReponse
+            {
+                OrderId = _.Id,
+                StoreId = _.StoreId,
+                StoreName = stores.Where(s => s.StoreId == _.StoreId).Select(s => s.StoreName)
+                                  .FirstOrDefault(),
+                Address = stores.Where(s => s.StoreId == _.StoreId).Select(s => s.Address)
+                                  .FirstOrDefault(),
+                PitchId = _.PitchId,
+                PitchName = pitchs.Where(s => s.PitchId == _.PitchId).Select(s => s.PitchName)
+                                  .FirstOrDefault(),
+                Price = _.Price,
+                Status = _.Status,
+                Note = _.Note,
+                Date = _.Date,
+                Start = _.Start,
+                End = _.End,
+                CreatedOn = _.CreatedOn,
+            }).ToList();
+
         }
 
         private async Task CachingSubmittedOrderByFilteringRequestAsync(int storeId, PitchFilteringRequest filteringRequest)

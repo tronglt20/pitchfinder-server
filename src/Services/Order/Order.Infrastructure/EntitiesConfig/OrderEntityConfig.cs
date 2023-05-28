@@ -9,7 +9,7 @@ namespace Order.Infrastructure.EntitiesConfig
         {
             entity.ToTable("Order");
 
-            entity.Property(e => e.Note ).IsRequired(false);
+            entity.Property(e => e.Note).IsRequired(false);
 
             entity.HasOne(d => d.CreatedBy)
                .WithMany(p => p.Orders)

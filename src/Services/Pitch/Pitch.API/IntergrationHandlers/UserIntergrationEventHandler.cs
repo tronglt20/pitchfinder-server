@@ -37,6 +37,8 @@ namespace Pitch.API.IntergrationHandlers
                     Status = StoreStatusEnum.Open,
                     Open = TimeSpan.FromHours(1),
                     Close = TimeSpan.FromHours(23),
+                    Address = "",
+                    PhoneNumber = "",
                 };
 
                 await _storeRepo.InsertAsync(store);

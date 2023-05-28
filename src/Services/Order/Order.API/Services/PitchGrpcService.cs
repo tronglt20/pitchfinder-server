@@ -34,5 +34,23 @@ namespace Order.API.Services
                 throw new Exception("Lỗi không tìm thấy sân, vui lòng chọn lại sân khác");
             }
         }
+
+        public async Task<PitchInfoResponse> GetPitchInfoAsync(List<Domain.Entities.Order> orders)
+        {
+            try
+            {
+                var request = new GetPitchInfoRequest();
+                request.StoreIds.AddRange(orders.Select(_ => _.StoreId).ToList());
+                request.PitchIds.AddRange(orders.Select(_ => _.PitchId).ToList());
+
+                return await _grpcClient.GetPitchInfoAsync(request);
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Lỗi không tìm thấy sân");
+            }
+        }
     }
 }

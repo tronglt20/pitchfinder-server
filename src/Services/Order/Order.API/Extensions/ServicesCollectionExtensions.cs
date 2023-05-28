@@ -41,7 +41,7 @@ namespace Order.API.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            return services.AddScoped<OrderService>()
+            return services.AddScoped<CustomerOrderService>()
                            .AddScoped<PitchGrpcService>();
         }
     }

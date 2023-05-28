@@ -4,9 +4,10 @@ option csharp_namespace = "Pitch.Grpc.Protos";
 
 service PitchProtoService {
   rpc GetMostSuitablePitch (GetMostSuitablePitchRequest) returns (MostSuitablePitchResponse);
+  rpc GetPitchInfo (GetPitchInfoRequest) returns (PitchInfoResponse);
 }
 
-
+// GetMostSuitablePitch	
 message GetMostSuitablePitchRequest {
 	int32 storeId = 1;
 	int32 price = 2;
@@ -19,4 +20,26 @@ message MostSuitablePitchResponse{
 	string storeName = 3;
 	string address = 4;
 	int32 price = 5;
+}
+
+// GetMostSuitablePitch	
+message GetPitchInfoRequest {
+	repeated int32 storeIds = 1;
+	repeated int32 pitchIds = 2;
+}
+
+message PitchInfoResponse{
+	repeated StoreItemInfoResponse stores = 1;
+	repeated PitchItemInfoResponse pitchs = 2;
+}
+
+message StoreItemInfoResponse{
+	int32 storeId = 1;
+	string storeName = 2;
+	string address = 3;
+}
+
+message PitchItemInfoResponse{
+	int32 pitchId = 1;
+	string pitchName = 2;
 }

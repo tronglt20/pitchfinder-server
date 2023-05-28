@@ -14,5 +14,8 @@ namespace Order.Domain.Interfaces
            , int pitchType
            , TimeSpan start
            , TimeSpan end);
+
+        Task<List<Domain.Entities.Order>> GetCustomerOrdersAsync(int userId);
+        Task<List<Domain.Entities.Order>> GetAdminOrdersAsync(int storeId);
     }
 }

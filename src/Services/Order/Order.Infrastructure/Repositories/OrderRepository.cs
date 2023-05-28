@@ -1,4 +1,5 @@
-﻿using Order.Domain.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using Order.Domain.Enums;
 using Order.Domain.Interfaces;
 using Shared.Infrastructure;
 
@@ -27,6 +28,16 @@ namespace Order.Infrastructure.Repositories
                          && _.Start == start
                          && _.End == end
                          && _.Status == OrderStatusEnum.Succesed);
+        }
+
+        public async Task<List<Domain.Entities.Order>> GetCustomerOrdersAsync(int userId)
+        {
+            return await GetQuery(_ => _.CreatedById == userId).ToListAsync();
+        }
+
+        public async Task<List<Domain.Entities.Order>> GetAdminOrdersAsync(int storeId)
+        {
+            return await GetQuery(_ => _.StoreId == storeId).ToListAsync();
         }
     }
 }

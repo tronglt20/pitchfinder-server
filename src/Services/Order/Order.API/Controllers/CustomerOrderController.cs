@@ -7,13 +7,13 @@ using Shared.API.Identity;
 
 namespace Order.API.Controllers
 {
-    [Route("api/order")]
+    [Route("api/order/customer")]
     [Authorize(PolicyNames.Customer_API)]
-    public class OrderController : ControllerBase
+    public class CustomerOrderController : ControllerBase
     {
-        private readonly OrderService _orderService;
+        private readonly CustomerOrderService _orderService;
 
-        public OrderController(OrderService orderService)
+        public CustomerOrderController(CustomerOrderService orderService)
         {
             _orderService = orderService;
         }
@@ -22,6 +22,12 @@ namespace Order.API.Controllers
         public async Task<OrderConfirmationResponse> Submit([FromBody] OrderConfirmationRequest request)
         {
             return await _orderService.SubmitAsync(request);
+        }
+
+        [HttpGet()]
+        public async Task<List<CustomerOrderHistoryItemReponse>> GetOrders()
+        {
+            return await _orderService.GetOrdersAsync();
         }
     }
 }
