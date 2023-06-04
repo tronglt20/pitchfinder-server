@@ -45,8 +45,7 @@ if (!app.Environment.IsProduction())
 
 app.UseIdentityServer();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.ConfigureDefault();
 
 app.MapControllers();
 
