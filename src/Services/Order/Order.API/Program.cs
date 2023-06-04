@@ -41,8 +41,7 @@ if (!app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.ConfigureDefault();
 
 app.MapControllers();
 
