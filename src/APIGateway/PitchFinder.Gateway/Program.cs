@@ -1,29 +1,21 @@
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
         .AddJsonFile($"ocelot.{builder.Environment.EnvironmentName}.json", true, true);
 
-// Config cross origin
-builder.Services.AddCors();
-
 // Add Ocelot
 builder.Services.AddOcelot(builder.Configuration);
+
+// Add Cors
+builder.Services.AddCors();
 
 var app = builder.Build();
 app.UseRouting();
 
-// global cors policy
-app.UseCors(x => x
+app.UseCors(builder => builder // Allow any
     .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true) // allow any origin
-                                        //.AllowCredentials()
-    .WithExposedHeaders("*")
-); // allow credentials
+    .AllowAnyHeader());
 
 await app.UseOcelot();
 
