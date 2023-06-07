@@ -7,9 +7,9 @@ namespace Pitch.Domain.Entities
     {
         public Store()
         {
-            
+
         }
-            
+
         public string Name { get; set; }
         public string Address { get; set; }
         public StoreStatusEnum Status { get; set; }
@@ -26,11 +26,13 @@ namespace Pitch.Domain.Entities
         public virtual ICollection<StoreComment> StoreComments { get; set; } = new HashSet<StoreComment>();
 
 
-        public void UpdateInfo(string name, string address, string phoneNumber)
+        public void UpdateInfo(string name, string address, string phoneNumber, TimeSpan open, TimeSpan close)
         {
             Name = name;
             Address = address;
             PhoneNumber = phoneNumber;
+            Open = open;
+            Close = close;
         }
 
         public void AddAttachment(Attachment image)

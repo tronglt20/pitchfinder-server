@@ -1,6 +1,8 @@
 ﻿#nullable disable
 
+using Microsoft.EntityFrameworkCore;
 using Order.API.ViewModels.Order.Responses;
+using Order.Domain.Enums;
 using Order.Domain.Interfaces;
 using Order.Infrastructure;
 using Shared.Domain.Interfaces;
@@ -56,6 +58,22 @@ namespace Order.API.Services
                 End = _.End,
                 CreatedOn = _.CreatedOn,
             }).ToList();
+        }
+
+        public async Task<List<CustomerItemReponse>> GetCustomersAsync()
+        {
+            var pichInfo = await _pitchGrpcService.GetOwnerPitchInfoAsync();
+            var stores = pichInfo.Stores.FirstOrDefault();
+
+            return await _orderRepo.GetQuery(_ => _.StoreId == stores.StoreId && _.Status == OrderStatusEnum.Succesed)
+                .GroupBy(_ => _.CreatedBy)
+                .Select(_ => new CustomerItemReponse()
+                {
+                    Id = _.Key.Id,
+                    Name = _.Key.UserName,
+                    PhoneNumber = _.Key.PhoneNumber,
+                    NumberOfOrder = _.Count()
+                }).ToListAsync();
         }
     }
 }

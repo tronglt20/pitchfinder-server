@@ -22,5 +22,11 @@ namespace Order.API.Controllers
         {
             return await _service.GetOrdersAsync();
         }
+
+        [HttpGet("customer")]
+        public async Task<List<CustomerItemReponse>> GetCustomers()
+        {
+            return await _service.GetCustomersAsync();
+        }
     }
 }

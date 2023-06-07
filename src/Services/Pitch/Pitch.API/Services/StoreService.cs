@@ -53,7 +53,9 @@ namespace Pitch.API.Services
             var store = await GetStoreAsync();
             store.UpdateInfo(request.Name
                 , request.Address
-                , request.PhoneNumber);
+                , request.PhoneNumber
+                , request.Open
+                , request.Close);
 
             if (request.BackgroundImage != null)
             {
@@ -71,6 +73,7 @@ namespace Pitch.API.Services
             var pitchs = store.Pitchs?.ToList();
             return pitchs?.Select(_ => new PitchItemResponse
             {
+                Id = _.Id,
                 Name = _.Name,
                 Description = _.Description,
                 Open = store.Open,
