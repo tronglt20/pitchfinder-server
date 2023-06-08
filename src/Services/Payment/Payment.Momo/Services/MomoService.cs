@@ -64,10 +64,5 @@ namespace Payment.Momo.Services
             JObject jmessage = JObject.Parse(responseFromMomo);
             return jmessage.ToString();
         }
-
-        public async Task GetPaymentResultAsync(PaymentResultResponse response)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,10 +1,13 @@
 ﻿#nullable disable
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Order.API.ViewModels.Order.Requests;
 using Order.API.ViewModels.Order.Responses;
 using Order.Domain.Enums;
 using Order.Domain.Interfaces;
 using Order.Infrastructure;
+using Order.Infrastructure.Dtos;
+using PitchFinder.RambitMQ.Events;
 using Shared.API.ViewModels;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure.DTOs;
@@ -18,25 +21,47 @@ namespace Order.API.Services
         private readonly IUnitOfWorkBase _unitOfWorkBase;
         private readonly IOrderRepository _orderRepo;
         private readonly IUserInfo _userInfo;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public CustomerOrderService(IOrderRepository orderRepo
             , IDistributedCacheRepository distributedCacheRepo
             , IUserInfo userInfo
             , PitchGrpcService pitchGrpcService
-            , IUnitOfWorkBase<OrderDbContext> unitOfWorkBase)
+            , IUnitOfWorkBase<OrderDbContext> unitOfWorkBase
+            , IPublishEndpoint publishEndpoint)
         {
             _orderRepo = orderRepo;
             _distributedCacheRepo = distributedCacheRepo;
             _userInfo = userInfo;
             _pitchGrpcService = pitchGrpcService;
             _unitOfWorkBase = unitOfWorkBase;
+            _publishEndpoint = publishEndpoint;
         }
 
-        public async Task PaymentAsync()
+        public async Task ReceivePaymentResultAsync(MomoPaymentResult paymentResult)
+        {
+            var order = await _orderRepo.GetQuery(_ => _.Id == Int32.Parse( paymentResult.OrderId)).FirstOrDefaultAsync();
+            if(order != null && order.Status == OrderStatusEnum.Pending)
+            {
+                if(paymentResult.Message == "Success")
+                {
+                    order.Status = OrderStatusEnum.Succesed;
+                }
+
+                await _unitOfWorkBase.SaveChangesAsync();
+            }
+
+            throw new Exception("Fail to load order");
+        }
+
+        public async Task SendPaymentRequestAsync()
         {
             var tempraryOrder = await _distributedCacheRepo.GetAsync<Domain.Entities.Order>($"temporary-order-{_userInfo.Id}");
             await _orderRepo.InsertAsync(tempraryOrder);
             await _unitOfWorkBase.SaveChangesAsync();
+
+            // trigger payment event
+            await _publishEndpoint.Publish(new OrderCreatedIntergrationEvent(tempraryOrder.Id, tempraryOrder.Price));
         }
 
         public async Task<OrderConfirmationResponse> MakeOrderAsync(OrderConfirmationRequest request)

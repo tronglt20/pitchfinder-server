@@ -18,11 +18,5 @@ namespace Payment.Momo.Controllers
         {
             return await _momoService.PaymentAsync(Guid.NewGuid().ToString(), "5000");
         }
-
-        [HttpGet("result")]
-        public async Task GetPaymentResult([FromQuery] PaymentResultResponse response)
-        {
-            await _momoService.GetPaymentResultAsync(response);
-        }
     }
 }

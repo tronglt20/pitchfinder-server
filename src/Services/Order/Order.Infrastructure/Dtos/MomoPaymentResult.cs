@@ -1,6 +1,6 @@
-﻿namespace Payment.Momo
+﻿namespace Order.Infrastructure.Dtos
 {
-    public class PaymentResultResponse
+    public class MomoPaymentResult
     {
         public string OrderId { get; set; }
         public string Message { get; set; }

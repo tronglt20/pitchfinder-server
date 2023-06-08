@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Order.API.Services;
 using Order.API.ViewModels.Order.Requests;
 using Order.API.ViewModels.Order.Responses;
+using Order.Infrastructure.Dtos;
 using Shared.API.Identity;
 
 namespace Order.API.Controllers
@@ -19,9 +20,15 @@ namespace Order.API.Controllers
         }
 
         [HttpPost()]
-        public async Task Payment()
+        public async Task SendPaymentRequest()
         {
-            return await _orderService.PaymentAsync();
+            await _orderService.SendPaymentRequestAsync();
+        }
+
+        [HttpGet("payment-result")]
+        public async Task ReceivePaymentResult([FromQuery] MomoPaymentResult paymentResult)
+        {
+            await _orderService.ReceivePaymentResultAsync(paymentResult);
         }
 
         [HttpPost()]
