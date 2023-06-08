@@ -44,9 +44,6 @@ namespace Order.API.Services
             return orders.Select(_ => new OrderHistoryItemReponse
             {
                 OrderId = _.Id,
-                StoreId = _.StoreId,
-                StoreName = stores.StoreName,
-                Address = stores.Address,
                 PitchId = _.PitchId,
                 PitchName = pitchs.Where(s => s.PitchId == _.PitchId).Select(s => s.PitchName)
                                   .FirstOrDefault(),
@@ -57,6 +54,8 @@ namespace Order.API.Services
                 Start = _.Start,
                 End = _.End,
                 CreatedOn = _.CreatedOn,
+                CreatedByName = _.CreatedBy.UserName,
+                CreatedById = _.CreatedById
             }).ToList();
         }
 
@@ -66,14 +65,14 @@ namespace Order.API.Services
             var stores = pichInfo.Stores.FirstOrDefault();
 
             return await _orderRepo.GetQuery(_ => _.StoreId == stores.StoreId && _.Status == OrderStatusEnum.Succesed)
-                .GroupBy(_ => _.CreatedBy)
-                .Select(_ => new CustomerItemReponse()
-                {
-                    Id = _.Key.Id,
-                    Name = _.Key.UserName,
-                    PhoneNumber = _.Key.PhoneNumber,
-                    NumberOfOrder = _.Count()
-                }).ToListAsync();
+                    .GroupBy(_ => _.CreatedById)
+                    .Select(_ => new CustomerItemReponse()
+                    {
+                        Id = _.Key,
+                        Name = _.Select(o => o.CreatedBy.UserName).FirstOrDefault(),
+                        PhoneNumber  = _.Select(o => o.CreatedBy.PhoneNumber).FirstOrDefault(),
+                        NumberOfOrder = _.Count()
+                    }).ToListAsync();
         }
     }
 }

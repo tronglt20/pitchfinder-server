@@ -65,11 +65,6 @@ namespace Order.API.Services
             return orders.Select(_ => new OrderHistoryItemReponse
             {
                 OrderId = _.Id,
-                StoreId = _.StoreId,
-                StoreName = stores.Where(s => s.StoreId == _.StoreId).Select(s => s.StoreName)
-                                  .FirstOrDefault(),
-                Address = stores.Where(s => s.StoreId == _.StoreId).Select(s => s.Address)
-                                  .FirstOrDefault(),
                 PitchId = _.PitchId,
                 PitchName = pitchs.Where(s => s.PitchId == _.PitchId).Select(s => s.PitchName)
                                   .FirstOrDefault(),
