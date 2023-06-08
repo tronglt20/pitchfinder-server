@@ -25,7 +25,7 @@ services
     .AddServices();
 
 // Add Utilities Services
-services.AddRambitMQ(configuration);
+services.AddRabbitMQ(configuration);
 
 services.AddAuthenticationConfig(configuration)
         .AddAuthorizationConfig();

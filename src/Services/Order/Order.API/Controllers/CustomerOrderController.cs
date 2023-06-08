@@ -19,9 +19,15 @@ namespace Order.API.Controllers
         }
 
         [HttpPost()]
-        public async Task<OrderConfirmationResponse> Submit([FromBody] OrderConfirmationRequest request)
+        public async Task Payment()
         {
-            return await _orderService.SubmitAsync(request);
+            return await _orderService.PaymentAsync();
+        }
+
+        [HttpPost()]
+        public async Task<OrderConfirmationResponse> MakeOrder([FromBody] OrderConfirmationRequest request)
+        {
+            return await _orderService.MakeOrderAsync(request);
         }
 
         [HttpGet()]

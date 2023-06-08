@@ -7,7 +7,7 @@ namespace PitchFinder.RambitMQ.Extensions
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddRambitMQ(this IServiceCollection services
+        public static IServiceCollection AddRabbitMQ(this IServiceCollection services
             , IConfiguration configuration)
         {
             var handlerCollection = new EventHandlerCollection(typeof(IntergrantionHandlerBase<>));

@@ -30,7 +30,7 @@ services.AddAuthenticationConfig(configuration)
 
 // Add Utilities Services
 services.AddS3(configuration)
-        .AddRambitMQ(configuration);
+        .AddRabbitMQ(configuration);
 
 services.AddSwaggerGen();
 

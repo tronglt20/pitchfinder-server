@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ServiceBus\PitchFinder.RambitMQ\PitchFinder.RambitMQ.csproj" />
     <ProjectReference Include="..\..\Shared.API\Shared.API.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Order.API.ViewModels.Order.Requests;
 using Order.API.ViewModels.Order.Responses;
+using Order.Domain.Enums;
 using Order.Domain.Interfaces;
 using Order.Infrastructure;
 using Shared.API.ViewModels;
@@ -31,13 +32,20 @@ namespace Order.API.Services
             _unitOfWorkBase = unitOfWorkBase;
         }
 
-        public async Task<OrderConfirmationResponse> SubmitAsync(OrderConfirmationRequest request)
+        public async Task PaymentAsync()
+        {
+            var tempraryOrder = await _distributedCacheRepo.GetAsync<Domain.Entities.Order>($"temporary-order-{_userInfo.Id}");
+            await _orderRepo.InsertAsync(tempraryOrder);
+            await _unitOfWorkBase.SaveChangesAsync();
+        }
+
+        public async Task<OrderConfirmationResponse> MakeOrderAsync(OrderConfirmationRequest request)
         {
             var filteringRequest = await _distributedCacheRepo.GetAsync<PitchFilteringRequest>($"filtering-request-{_userInfo.Id}");
             await CachingSubmittedOrderByFilteringRequestAsync(request.StoreId, filteringRequest);
-            var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(request.StoreId, request.Price);
 
-            return new OrderConfirmationResponse
+            var mostSuitablePitch = await _pitchGrpcService.GetMostSuitablePitchAsync(request.StoreId, request.Price);
+            var result = new OrderConfirmationResponse
             {
                 StoreId = request.StoreId,
                 StoreName = mostSuitablePitch.StoreName,
@@ -51,6 +59,8 @@ namespace Order.API.Services
                 End = filteringRequest.End,
                 Note = request.Note,
             };
+            await CatchingTemporaryOrderAsync(result);
+            return result;
         }
 
         public async Task<List<OrderHistoryItemReponse>> GetOrdersAsync()
@@ -88,6 +98,24 @@ namespace Order.API.Services
                 .Select(_ => _.PitchId).ToListAsync();
 
             await _distributedCacheRepo.UpdateAsync<List<int>>($"summited-pitchs-by-request-{_userInfo.Id}", submittedOrders);
+        }
+
+        private async Task CatchingTemporaryOrderAsync(OrderConfirmationResponse orderConfirmation)
+        {
+            var newOrder = new Domain.Entities.Order
+            {
+                StoreId = orderConfirmation.StoreId,
+                PitchId = orderConfirmation.PitchId,
+                Status = OrderStatusEnum.Pending,
+                Price = orderConfirmation.Price,
+                Note = orderConfirmation.Note,
+                Date = orderConfirmation.Date,
+                Start = orderConfirmation.Start,
+                End= orderConfirmation.End,
+                CreatedById = _userInfo.Id,
+            };
+            await _distributedCacheRepo.UpdateAsync<Domain.Entities.Order>($"temporary-order-{_userInfo.Id}", newOrder);
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Order.Domain.Entities
         public DateTime Date { get; set; }
         public TimeSpan Start { get; set; }
         public TimeSpan End { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public int CreatedById { get; set; }
 
         public virtual User CreatedBy { get; set; }

@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Payment.Momo
 {
@@ -11,8 +8,9 @@ namespace Payment.Momo
         private static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
         public MoMoSecurity()
         {
-            //encrypt and decrypt password using secure
+
         }
+
         public string getHash(string partnerCode, string merchantRefId,
             string amount, string paymentCode, string storeId, string storeName, string publicKeyXML)
         {
@@ -29,8 +27,6 @@ namespace Payment.Momo
             {
                 try
                 {
-                    // MoMo's public key has format PEM.
-                    // You must convert it to XML format. Recommend tool: https://superdry.apphb.com/tools/online-rsa-key-converter
                     rsa.FromXmlString(publicKeyXML);
                     var encryptedData = rsa.Encrypt(data, false);
                     var base64Encrypted = Convert.ToBase64String(encryptedData);
@@ -59,7 +55,6 @@ namespace Payment.Momo
             {
                 try
                 {
-                    // client encrypting data with public key issued by server
                     rsa.FromXmlString(publicKey);
                     var encryptedData = rsa.Encrypt(data, false);
                     var base64Encrypted = Convert.ToBase64String(encryptedData);

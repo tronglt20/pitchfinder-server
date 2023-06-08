@@ -8,6 +8,7 @@ namespace Payment.Momo
         public PaymentRequest()
         {
         }
+
         public static string sendPaymentRequest(string endpoint, string postJsonString)
         {
 
@@ -44,11 +45,7 @@ namespace Payment.Momo
                     }
                 }
 
-
-                //todo parse it
                 return jsonresponse;
-                //return new MomoResponse(mtid, jsonresponse);
-
             }
             catch (WebException e)
             {
