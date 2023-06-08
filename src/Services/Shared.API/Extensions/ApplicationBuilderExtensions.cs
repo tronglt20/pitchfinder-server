@@ -1,4 +1,6 @@
-﻿namespace Shared.API.Extensions
+﻿using Microsoft.AspNetCore.Builder;
+
+namespace Shared.API.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
