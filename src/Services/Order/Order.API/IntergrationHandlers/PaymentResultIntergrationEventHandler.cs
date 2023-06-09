@@ -28,10 +28,10 @@ namespace Order.API.IntergrationHandlers
             var order = await _orderRepo.GetQuery(_ => _.Id == Int32.Parse(@event.OrderId)).FirstOrDefaultAsync();
             if (order != null && order.Status == OrderStatusEnum.Pending)
             {
-                if (@event.Message == "Successful")
-                {
+                if (@event.ResultCode == "0")
                     order.Status = OrderStatusEnum.Succesed;
-                }
+                else
+                    order.Status = OrderStatusEnum.Failed;
 
                 await _unitOfWorkBase.SaveChangesAsync();
             }
