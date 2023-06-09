@@ -56,3 +56,10 @@ services:
       context: .
       dockerfile: Services/Order/Order.Grpc/Dockerfile
 
+
+  payment.momo:
+    image: ${DOCKER_REGISTRY-}paymentmomo
+    build:
+      context: .
+      dockerfile: Services/Payment/Payment.Momo/Dockerfile
+

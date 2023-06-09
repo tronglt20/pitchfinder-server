@@ -100,3 +100,9 @@ services:
     ports:
       - "8015:80"
 
+  payment.momo:
+    container_name: payment.momo
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8016:80"
