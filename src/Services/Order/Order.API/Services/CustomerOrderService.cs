@@ -57,8 +57,7 @@ namespace Order.API.Services
                     var data = new
                     {
                         OrderId = $"{Guid.NewGuid()}--{tempraryOrder.Id}" ,
-                        /*Amount = tempraryOrder.Price.ToString()*/
-                        Amount = "10000"
+                        Amount = tempraryOrder.Price.ToString()
                     };
 
                     var request = new HttpRequestMessage(HttpMethod.Post, ServiceEndpoints.PaymentAPI);
