@@ -1,12 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MassTransit;
+using Newtonsoft.Json.Linq;
+using PitchFinder.RambitMQ.Events;
 
 namespace Payment.Momo.Services
 {
     public class MomoService
     {
-        public MomoService()
-        {
+        private readonly IPublishEndpoint _publishEndpoint;
 
+        public MomoService(IPublishEndpoint publishEndpoint)
+        {
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<string> PaymentAsync(string orderId, string amount)
@@ -63,6 +67,15 @@ namespace Payment.Momo.Services
 
             JObject jmessage = JObject.Parse(responseFromMomo);
             return jmessage.ToString();
+        }
+
+        public async Task ReceivePaymentResultAsync(MomoPaymentResult paymentResult)
+        {
+            var orderId = paymentResult.OrderId.Split("--")[1];
+
+            await _publishEndpoint.Publish(new PaymentResultIntergrationEvent(orderId
+                , paymentResult.Message
+                , paymentResult.ResultCode));
         }
     }
 }

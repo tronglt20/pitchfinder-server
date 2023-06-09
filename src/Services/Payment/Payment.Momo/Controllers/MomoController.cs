@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Payment.Momo.Services;
+using Payment.Momo.ViewModels;
 
 namespace Payment.Momo.Controllers
 {
@@ -14,9 +15,15 @@ namespace Payment.Momo.Controllers
         }
 
         [HttpPost()]
-        public async Task<string> Payment()
+        public async Task<string> Payment([FromBody] OrderCreatedRequest request)
         {
-            return await _momoService.PaymentAsync(Guid.NewGuid().ToString(), "5000");
+            return await _momoService.PaymentAsync(request.OrderId, request.Amount);
+        }
+
+        [HttpGet("result")]
+        public async Task ReceivePaymentResult([FromQuery] MomoPaymentResult paymentResult)
+        {
+            await _momoService.ReceivePaymentResultAsync(paymentResult);
         }
     }
 }

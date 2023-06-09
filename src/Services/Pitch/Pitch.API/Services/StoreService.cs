@@ -87,7 +87,7 @@ namespace Pitch.API.Services
         public async Task AddPitchAsync(AddPitchRequest request)
         {
             var store = await GetStoreAsync();
-            var existed = await _pitchRepo.AnyAsync(_ => _.Name == request.Name);
+            var existed = await _pitchRepo.AnyAsync(_ => _.Store.OwnerId == _userInfo.Id && _.Name == request.Name);
             if (existed)
                 throw new Exception($"Sân {request.Name} đã tồn tại");
 

@@ -14,6 +14,12 @@ namespace Shared.API.Extensions
 {
     public static partial class ServicesCollectionExtensions
     {
+        public static IServiceCollection AddServiceEndpoints(this IServiceCollection services, IConfiguration configuration)
+        {
+            configuration.GetSection("ServiceEndpoints").Get<ServiceEndpoints>(options => options.BindNonPublicProperties = true);
+            return services;
+        }
+
         public static IServiceCollection AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration.GetSection("IdentityOptions").Get<IdentitySettings>();

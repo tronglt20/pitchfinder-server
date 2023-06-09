@@ -19,16 +19,10 @@ namespace Order.API.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost()]
-        public async Task SendPaymentRequest()
+        [HttpPost("confirm")]
+        public async Task<string> SendPaymentRequest()
         {
-            await _orderService.SendPaymentRequestAsync();
-        }
-
-        [HttpGet("payment-result")]
-        public async Task ReceivePaymentResult([FromQuery] MomoPaymentResult paymentResult)
-        {
-            await _orderService.ReceivePaymentResultAsync(paymentResult);
+            return await _orderService.SendPaymentRequestAsync();
         }
 
         [HttpPost()]

@@ -7,10 +7,14 @@ using Order.Domain.Enums;
 using Order.Domain.Interfaces;
 using Order.Infrastructure;
 using Order.Infrastructure.Dtos;
-using PitchFinder.RambitMQ.Events;
 using Shared.API.ViewModels;
 using Shared.Domain.Interfaces;
+using Shared.Infrastructure.Dtos;
 using Shared.Infrastructure.DTOs;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
+using System.Text.Json;
 
 namespace Order.API.Services
 {
@@ -38,30 +42,38 @@ namespace Order.API.Services
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task ReceivePaymentResultAsync(MomoPaymentResult paymentResult)
-        {
-            var order = await _orderRepo.GetQuery(_ => _.Id == Int32.Parse( paymentResult.OrderId)).FirstOrDefaultAsync();
-            if(order != null && order.Status == OrderStatusEnum.Pending)
-            {
-                if(paymentResult.Message == "Success")
-                {
-                    order.Status = OrderStatusEnum.Succesed;
-                }
-
-                await _unitOfWorkBase.SaveChangesAsync();
-            }
-
-            throw new Exception("Fail to load order");
-        }
-
-        public async Task SendPaymentRequestAsync()
+        public async Task<string> SendPaymentRequestAsync()
         {
             var tempraryOrder = await _distributedCacheRepo.GetAsync<Domain.Entities.Order>($"temporary-order-{_userInfo.Id}");
             await _orderRepo.InsertAsync(tempraryOrder);
-            await _unitOfWorkBase.SaveChangesAsync();
 
-            // trigger payment event
-            await _publishEndpoint.Publish(new OrderCreatedIntergrationEvent(tempraryOrder.Id, tempraryOrder.Price));
+            var result = await _unitOfWorkBase.ExecuteTransactionAsync(async () =>
+            {
+                await _unitOfWorkBase.SaveChangesAsync();
+
+                // 1. Http call to get paymentUrl
+                using (var httpClient = new HttpClient())
+                {
+                    var data = new
+                    {
+                        OrderId = $"{Guid.NewGuid()}--{tempraryOrder.Id}" ,
+                        /*Amount = tempraryOrder.Price.ToString()*/
+                        Amount = "10000"
+                    };
+
+                    var request = new HttpRequestMessage(HttpMethod.Post, ServiceEndpoints.PaymentAPI);
+                    request.Content = new StringContent(JsonSerializer.Serialize(data), System.Text.Encoding.UTF8, "application/json");
+
+                    var response = await httpClient.SendAsync(request);
+
+                    if (response.IsSuccessStatusCode)
+                        return await response.Content.ReadAsStringAsync();
+                    else
+                        throw new Exception("Send payment request fail");
+                }
+            });
+
+            return result;
         }
 
         public async Task<OrderConfirmationResponse> MakeOrderAsync(OrderConfirmationRequest request)
@@ -136,7 +148,7 @@ namespace Order.API.Services
                 Note = orderConfirmation.Note,
                 Date = orderConfirmation.Date,
                 Start = orderConfirmation.Start,
-                End= orderConfirmation.End,
+                End = orderConfirmation.End,
                 CreatedById = _userInfo.Id,
             };
             await _distributedCacheRepo.UpdateAsync<Domain.Entities.Order>($"temporary-order-{_userInfo.Id}", newOrder);

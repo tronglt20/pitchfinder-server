@@ -12,6 +12,7 @@ services.AddEndpointsApiExplorer();
 
 services.AddOrderDatabaseContext(configuration);
 services.AddRedisCache(configuration);
+services.AddServiceEndpoints(configuration);
 
 // Config User claims info
 services.AddUserInfo();
