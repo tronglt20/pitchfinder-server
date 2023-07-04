@@ -19,7 +19,7 @@ namespace Pitch.API.Controllers
             _storeOrderingService = storeOrderingService;
         }
 
-        [HttpGet()]
+        [HttpPost()]
         public async Task<List<StoreOrderingItemResponse>> GetStores([FromBody] GetStoreOrderingRequest request)
         {
             return await _storeOrderingService.GetStoresAsync(request);
