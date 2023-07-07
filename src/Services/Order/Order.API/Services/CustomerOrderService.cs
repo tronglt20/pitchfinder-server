@@ -142,6 +142,7 @@ namespace Order.API.Services
             {
                 StoreId = orderConfirmation.StoreId,
                 PitchId = orderConfirmation.PitchId,
+                PitchType = orderConfirmation.PitchType,
                 Status = OrderStatusEnum.Pending,
                 Price = orderConfirmation.Price,
                 Note = orderConfirmation.Note,
