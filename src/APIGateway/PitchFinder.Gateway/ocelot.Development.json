@@ -56,6 +56,26 @@
       "HttpHandlerOptions": {
         "AllowAutoRedirect": true
       }
+    },
+
+    // Payment APIs
+    {
+      "DownstreamPathTemplate": "/api/payment/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "payment.momo",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/payment/{catchAll}",
+      "UpstreamHttpMethod": [],
+      "RouteIsCaseSensitive": true,
+      "UseServiceDiscovery": false,
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      }
     }
   ],
   "GlobalConfiguration": {
