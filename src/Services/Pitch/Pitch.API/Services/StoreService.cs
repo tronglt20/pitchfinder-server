@@ -70,12 +70,14 @@ namespace Pitch.API.Services
             return new EditStoreResponse(store);
         }
 
-        public async Task<List<PitchItemResponse>> GetPitchsAsync()
+        public async Task<List<PitchItemResponse>> GetPitchsAsync(string keyName, PitchTypeEnum? pitchType)
         {
             var result = new List<PitchItemResponse>();
 
             var store = await GetStoreAsync();
-            await Parallel.ForEachAsync(store?.Pitchs, async (pitch, token) =>
+            var pitchs = store?.Pitchs.Where(_ => (string.IsNullOrEmpty(keyName) ? true : _.Name.Contains(keyName))
+                                                    && (!pitchType.HasValue ? true : _.Type == pitchType));
+            await Parallel.ForEachAsync(pitchs, async (pitch, token) =>
             {
                 var pitchModel = new PitchItemResponse()
                 {

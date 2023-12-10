@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pitch.API.Services;
 using Pitch.API.ViewModels.Store.Requests;
 using Pitch.API.ViewModels.Store.Responses;
+using Pitch.Domain.Enums;
 using Shared.API.Identity;
 
 namespace Pitch.API.Controllers
@@ -31,9 +32,9 @@ namespace Pitch.API.Controllers
         }
 
         [HttpGet("pitchs")]
-        public async Task<List<PitchItemResponse>> GetPitchs()
+        public async Task<List<PitchItemResponse>> GetPitchs([FromQuery] string keyName, [FromQuery] PitchTypeEnum? pitchType)
         {
-            return await _storeService.GetPitchsAsync();
+            return await _storeService.GetPitchsAsync(keyName, pitchType);
         }
 
         [HttpPost("pitchs")]

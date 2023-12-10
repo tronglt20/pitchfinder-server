@@ -31,22 +31,21 @@ namespace Order.API.Services
             _unitOfWorkBase = unitOfWorkBase;
         }
 
-        public async Task<List<OrderHistoryItemReponse>> GetOrdersAsync()
+        public async Task<List<OrderHistoryItemReponse>> GetOrdersAsync(string keyName, int? pitchType)
         {
             var pichInfo = await _pitchGrpcService.GetOwnerPitchInfoAsync();
             var stores = pichInfo.Stores.FirstOrDefault();
             var pitchs = pichInfo.Pitchs.ToList();
 
-            var orders = await _orderRepo.GetOwnerOrdersAsync(stores.StoreId);
+            var orders = await _orderRepo.GetOwnerOrdersAsync(stores.StoreId, pitchType);
             if (orders == null)
                 return null;
 
-            return orders.Select(_ => new OrderHistoryItemReponse
+            var result = orders.Select(_ => new OrderHistoryItemReponse
             {
                 OrderId = _.Id,
                 PitchId = _.PitchId,
-                PitchName = pitchs.Where(s => s.PitchId == _.PitchId).Select(s => s.PitchName)
-                                  .FirstOrDefault(),
+                PitchName = pitchs.Where(s => s.PitchId == _.PitchId).Select(s => s.PitchName).FirstOrDefault(),
                 Price = _.Price,
                 Status = _.Status,
                 Note = _.Note,
@@ -57,9 +56,11 @@ namespace Order.API.Services
                 CreatedByName = _.CreatedBy.UserName,
                 CreatedById = _.CreatedById
             }).ToList();
+
+            return result.Where(_ => string.IsNullOrEmpty(keyName) ? true : _.PitchName.Contains(keyName)).ToList();
         }
 
-        public async Task<List<CustomerItemReponse>> GetCustomersAsync()
+        public async Task<List<CustomerItemReponse>> GetCustomersAsync(string keyname)
         {
             var pichInfo = await _pitchGrpcService.GetOwnerPitchInfoAsync();
             var stores = pichInfo.Stores.FirstOrDefault();
@@ -72,7 +73,9 @@ namespace Order.API.Services
                         Name = _.Select(o => o.CreatedBy.UserName).FirstOrDefault(),
                         PhoneNumber  = _.Select(o => o.CreatedBy.PhoneNumber).FirstOrDefault(),
                         NumberOfOrder = _.Count()
-                    }).ToListAsync();
+                    })
+                    .Where(_ => string.IsNullOrEmpty(keyname) ? true : _.Name.Contains(keyname))
+                    .ToListAsync();
         }
     }
 }

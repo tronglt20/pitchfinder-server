@@ -18,15 +18,15 @@ namespace Order.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<List<OrderHistoryItemReponse>> GetOrders()
+        public async Task<List<OrderHistoryItemReponse>> GetOrders([FromQuery] string keyname, [FromQuery] int? pitchType)
         {
-            return await _service.GetOrdersAsync();
+            return await _service.GetOrdersAsync(keyname, pitchType);
         }
 
         [HttpGet("customer")]
-        public async Task<List<CustomerItemReponse>> GetCustomers()
+        public async Task<List<CustomerItemReponse>> GetCustomers([FromQuery] string keyname)
         {
-            return await _service.GetCustomersAsync();
+            return await _service.GetCustomersAsync(keyname);
         }
     }
 }

@@ -35,9 +35,12 @@ namespace Order.Infrastructure.Repositories
             return await GetQuery(_ => _.CreatedById == userId).ToListAsync();
         }
 
-        public async Task<List<Domain.Entities.Order>> GetOwnerOrdersAsync(int storeId)
+        public async Task<List<Domain.Entities.Order>> GetOwnerOrdersAsync(int storeId, int? pitchType)
         {
-            return await GetQuery(_ => _.StoreId == storeId && _.Status != OrderStatusEnum.Pending).ToListAsync();
+            return await GetQuery(_ => _.StoreId == storeId 
+                    && _.Status != OrderStatusEnum.Pending
+                    && (pitchType.HasValue ? _.PitchType == pitchType : true))
+                .ToListAsync();
         }
     }
 }
