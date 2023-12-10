@@ -1,4 +1,5 @@
 ﻿using Pitch.Domain.Enums;
+using Shared.API.ViewModels;
 
 namespace Pitch.API.ViewModels.Store.Responses
 {
@@ -12,5 +13,6 @@ namespace Pitch.API.ViewModels.Store.Responses
         public PitchStatusEnum Status { get; set; }
         public PitchTypeEnum Type { get; set; }
         public int Price { get; set; }
+        public List<AttachmentResponse> Attachments { get; set; } = new List<AttachmentResponse>(); 
     }
 }

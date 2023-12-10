@@ -43,7 +43,7 @@ namespace Pitch.API.Controllers
         }
 
         [HttpPut("pitchs/{id:int}")]
-        public async Task EditPitchInfo([FromRoute] int id, [FromBody] EditPitchRequest request)
+        public async Task EditPitchInfo([FromRoute] int id, [FromForm] EditPitchRequest request)
         {
             await _storeService.EditPitchInfoAsync(id, request);
         }

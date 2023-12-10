@@ -34,9 +34,33 @@ namespace Shared.API.Services
         }
 
 
+        public async Task<List<T>> UploadListAsync(List<IFormFile> formFiles)
+        {
+            var attachments = new List<T>();
+            foreach (var formFile in formFiles)
+            {
+                var attachment = await UploadAsync(formFile);
+                attachments.Add(attachment);
+            }
+
+            await _attachmentRepo.InsertRangeAsync(attachments);
+            return attachments;
+        }
+
+
         public async Task<string> GetPresignedUrl(string keyName)
         {
             return await _s3Service.GetPresignedUrl(keyName);
+        }
+
+        public async Task<bool> DeleteListAsync(List<T> attachments)
+        {
+            var fileKeys = attachments.Select(_ => _.KeyName).ToList();
+            foreach (var fileKey in fileKeys)
+                await _s3Service.DeleteAsync(fileKey);
+
+            await _attachmentRepo.DeleteRangeAsync(attachments);
+            return true;
         }
 
     }

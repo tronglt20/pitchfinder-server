@@ -30,5 +30,13 @@ namespace Pitch.Domain.Entities
             Type = type;
             Status = status;
         }
+
+        public void AddAttachments(List<Attachment> attachments)
+        {
+            foreach (Attachment attachment in attachments)
+            {
+                PitchAttachments.Add(new PitchAttachment(this, attachment));
+            }
+        }
     }
 }

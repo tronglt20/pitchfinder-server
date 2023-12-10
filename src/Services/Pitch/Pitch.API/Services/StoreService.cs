@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using Castle.Core.Internal;
 using Pitch.API.ViewModels.Store.Requests;
 using Pitch.API.ViewModels.Store.Responses;
 using Pitch.Domain.Entities;
@@ -7,6 +8,7 @@ using Pitch.Domain.Enums;
 using Pitch.Domain.Interfaces;
 using Pitch.Infrastructure;
 using Shared.API.Services;
+using Shared.API.ViewModels;
 using Shared.Domain.Interfaces;
 using Shared.Infrastructure.DTOs;
 
@@ -19,6 +21,7 @@ namespace Pitch.API.Services
         private readonly IUnitOfWorkBase<PitchDbContext> _unitOfWorkBase;
         private readonly AttachmentService<Attachment, PitchDbContext> _attachmentService;
         private readonly IUserInfo _userInfo;
+
 
         public StoreService(IStoreRepository storeRepo
             , IUnitOfWorkBase<PitchDbContext> unitOfWorkBase
@@ -69,19 +72,38 @@ namespace Pitch.API.Services
 
         public async Task<List<PitchItemResponse>> GetPitchsAsync()
         {
+            var result = new List<PitchItemResponse>();
+
             var store = await GetStoreAsync();
-            var pitchs = store.Pitchs?.ToList();
-            return pitchs?.Select(_ => new PitchItemResponse
+            await Parallel.ForEachAsync(store?.Pitchs, async (pitch, token) =>
             {
-                Id = _.Id,
-                Name = _.Name,
-                Description = _.Description,
-                Open = store.Open,
-                Close = store.Close,
-                Status = _.Status,
-                Type = _.Type,
-                Price = _.Price,
-            }).ToList();
+                var pitchModel = new PitchItemResponse()
+                {
+                    Id = pitch.Id,
+                    Name = pitch.Name,
+                    Description = pitch.Description,
+                    Open = store.Open,
+                    Close = store.Close,
+                    Status = pitch.Status,
+                    Type = pitch.Type,
+                    Price = pitch.Price,
+                };
+
+                if(!pitch.PitchAttachments.IsNullOrEmpty())
+                {
+                    foreach (var pitchAttachment in pitch.PitchAttachments)
+                    {
+                        var attachment = pitchAttachment.Attachment;
+                        pitchModel.Attachments.Add(new AttachmentResponse(attachment.Id
+                            , attachment.Name
+                            , attachment.KeyName
+                            , await _attachmentService.GetPresignedUrl(attachment.KeyName)));
+                    }
+                }
+
+                result.Add(pitchModel);
+            });
+            return result;
         }
 
         public async Task AddPitchAsync(AddPitchRequest request)
@@ -101,6 +123,13 @@ namespace Pitch.API.Services
                 Status = PitchStatusEnum.Open,
             };
 
+            if (request?.Formfiles.Count > 0)
+            {
+                var attachments = await _attachmentService.UploadListAsync(request.Formfiles);
+                if (attachments.Count > 0)
+                    newPitch.AddAttachments(attachments);
+            }
+
             await _pitchRepo.InsertAsync(newPitch);
             await _unitOfWorkBase.SaveChangesAsync();
         }
@@ -114,6 +143,23 @@ namespace Pitch.API.Services
                 , request.Price
                 , request.Type
                 , request.Status);
+
+            if (request?.Formfiles.Count > 0)
+            {
+                var existedAttachs = pitch.PitchAttachments.Select(_ => _.Attachment).ToList();
+                if (existedAttachs.Any())
+                    await _attachmentService.DeleteListAsync(existedAttachs);
+
+                var attachments = await _attachmentService.UploadListAsync(request.Formfiles);
+                if (attachments.Count > 0)
+                    pitch.AddAttachments(attachments);
+            }
+            else
+            {
+                var existedAttachs = pitch.PitchAttachments.Select(_ => _.Attachment).ToList();
+                if (existedAttachs.Any())
+                    await _attachmentService.DeleteListAsync(existedAttachs);
+            }
 
             await _unitOfWorkBase.SaveChangesAsync();
         }

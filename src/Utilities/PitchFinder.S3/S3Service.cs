@@ -46,8 +46,7 @@ namespace PitchFinder.S3
             }
             catch (Exception e)
             {
-
-                throw;
+                throw e;
             }
         }
 
