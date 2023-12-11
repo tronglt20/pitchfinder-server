@@ -38,7 +38,7 @@ namespace Pitch.API.Controllers
         }
 
         [HttpPost("pitchs")]
-        public async Task AddPitch([FromBody] AddPitchRequest request)
+        public async Task AddPitch([FromForm] AddPitchRequest request)
         {
             await _storeService.AddPitchAsync(request);
         }
