@@ -2,6 +2,10 @@
 {
     public class AttachmentResponse
     {
+        public AttachmentResponse()
+        {
+            
+        }
         public AttachmentResponse(int fileId, string fileName, string keyName, string presignedUrl)
         {
             Id = fileId;

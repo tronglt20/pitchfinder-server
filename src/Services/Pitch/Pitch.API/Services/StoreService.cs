@@ -77,7 +77,7 @@ namespace Pitch.API.Services
             var store = await GetStoreAsync();
             var pitchs = store?.Pitchs.Where(_ => (string.IsNullOrEmpty(keyName) ? true : _.Name.Contains(keyName))
                                                     && (!pitchType.HasValue ? true : _.Type == pitchType));
-            await Parallel.ForEachAsync(pitchs, async (pitch, token) =>
+            foreach ( var pitch in pitchs)
             {
                 var pitchModel = new PitchItemResponse()
                 {
@@ -91,7 +91,7 @@ namespace Pitch.API.Services
                     Price = pitch.Price,
                 };
 
-                if(!pitch.PitchAttachments.IsNullOrEmpty())
+                if (!pitch.PitchAttachments.IsNullOrEmpty())
                 {
                     foreach (var pitchAttachment in pitch.PitchAttachments)
                     {
@@ -102,9 +102,8 @@ namespace Pitch.API.Services
                             , await _attachmentService.GetPresignedUrl(attachment.KeyName)));
                     }
                 }
-
                 result.Add(pitchModel);
-            });
+            }
             return result;
         }
 
