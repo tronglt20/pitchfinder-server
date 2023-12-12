@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Pitch.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Pitch.API.ViewModels.Store.Responses
 {
@@ -10,9 +11,10 @@ namespace Pitch.API.ViewModels.Store.Responses
         public string PhoneNumber { get; set; }
         public int Price { get; set; }
         public int Rating { get; set; }
+        public PitchTypeEnum PitchType { get; set; }
         public string BackgroundUrl { get; set; }
 
         [JsonIgnore]
-        public string AttachmentKeyname { get; set; }
+        public Domain.Entities.Pitch Pitch { get; set; }
     }
 }

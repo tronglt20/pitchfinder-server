@@ -47,8 +47,13 @@ namespace Pitch.API.Services
 
             foreach (var store in stores)
             {
-                if (!string.IsNullOrEmpty(store.AttachmentKeyname))
-                    store.BackgroundUrl = await _attachmentService.GetPresignedUrl(store.AttachmentKeyname);
+                var pitch = store.Pitch;
+                var attachmentKeyName = pitch.PitchAttachments?.Select(_ => _.Attachment.KeyName).FirstOrDefault();
+                if (!string.IsNullOrEmpty(attachmentKeyName))
+                    store.BackgroundUrl = await _attachmentService.GetPresignedUrl(attachmentKeyName);
+
+                store.Price = pitch.Price;
+                store.PitchType = pitch.Type;
             }
 
             return stores;

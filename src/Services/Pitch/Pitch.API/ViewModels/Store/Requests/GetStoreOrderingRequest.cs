@@ -26,10 +26,8 @@ namespace Pitch.API.ViewModels.Store.Requests
                 Address = _.Address,
                 PhoneNumber = _.PhoneNumber,
                 Rating = _.StoreRatings.Any() ? (int)_.StoreRatings.Average(_ => _.Rating) : 5,
-                AttachmentKeyname = _.StoreAttachments.Select(_ => _.Attachment.KeyName).FirstOrDefault(),
-                Price = _.Pitchs.Where(p => !submitedPitchIds.Contains(p.Id) && p.Status == PitchStatusEnum.Open)
+                Pitch = _.Pitchs.Where(p => !submitedPitchIds.Contains(p.Id) && p.Status == PitchStatusEnum.Open)
                                      .OrderBy(p => p.Price)
-                                     .Select(p => p.Price)
                                      .FirstOrDefault(),
             };
         }
