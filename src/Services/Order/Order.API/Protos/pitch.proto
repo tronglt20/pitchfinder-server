@@ -44,6 +44,7 @@ message StoreItemInfoResponse{
 message PitchItemInfoResponse{
 	int32 pitchId = 1;
 	string pitchName = 2;
+	int32 pitchType = 3;
 }
 
 // GetOwnerPitchInfo

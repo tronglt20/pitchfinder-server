@@ -37,10 +37,34 @@ namespace Order.Infrastructure.Repositories
 
         public async Task<List<Domain.Entities.Order>> GetOwnerOrdersAsync(int storeId, int? pitchType)
         {
-            return await GetQuery(_ => _.StoreId == storeId 
+            return await GetQuery(_ => _.StoreId == storeId
                     && _.Status != OrderStatusEnum.Pending
                     && (pitchType.HasValue ? _.PitchType == pitchType : true))
                 .ToListAsync();
+        }
+
+        public async Task<int> GetRevanueByPitchTypeAsync(int storeId, int pitchType)
+        {
+            return await GetQuery(_ => _.StoreId == storeId
+                  && _.Status == OrderStatusEnum.Succesed
+                  && _.PitchType == pitchType)
+              .SumAsync(_ => _.Price);
+        }
+
+        public async Task<int> GetRevanueByPitchNameAsync(int storeId, int pitchId)
+        {
+            return await GetQuery(_ => _.StoreId == storeId
+                  && _.Status == OrderStatusEnum.Succesed
+                  && _.PitchId == pitchId)
+              .SumAsync(_ => _.Price);
+        }
+
+        public async Task<int> GetRevanueByMonthAsync(DateTime startDate, DateTime endDate)
+        {
+            return await GetQuery(_ => _.Status == OrderStatusEnum.Succesed
+                    && _.CreatedOn >= startDate
+                    && _.CreatedOn <= endDate)
+              .SumAsync(_ => _.Price);
         }
     }
 }

@@ -17,5 +17,8 @@ namespace Order.Domain.Interfaces
 
         Task<List<Domain.Entities.Order>> GetCustomerOrdersAsync(int userId);
         Task<List<Domain.Entities.Order>> GetOwnerOrdersAsync(int storeId, int? pitchType);
+        Task<int> GetRevanueByMonthAsync(DateTime startDate, DateTime endDate);
+        Task<int> GetRevanueByPitchNameAsync(int storeId, int pitchId);
+        Task<int> GetRevanueByPitchTypeAsync(int storeId, int pitchType);
     }
 }

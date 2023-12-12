@@ -90,6 +90,7 @@ namespace Pitch.Grpc.Services
                 {
                     PitchId = _.Id,
                     PitchName = _.Name,
+                    PitchType = (int)_.Type
                 }).ToListAsync();
 
             var response = new PitchInfoResponse();
